@@ -1,0 +1,12 @@
+# Virtual Env
+venv
+
+# Python
+__pycache__
+
+# VSCode
+.vscode
+
+# pypi
+dist
+*.egg-info
