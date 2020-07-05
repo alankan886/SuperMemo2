@@ -10,9 +10,9 @@ class SM2Test(unittest.TestCase):
 
     def test_easiness_value_lowerbound(self):
         self.sm_two.quality = 3
-        self.sm_two.prev_interval = 30
-        self.sm_two.prev_repetitions = 6
-        self.sm_two.prev_easiness = 1.3
+        self.sm_two.interval = 30
+        self.sm_two.repetitions = 6
+        self.sm_two.easiness = 1.3
 
         self.sm_two.new_sm_two()
 
