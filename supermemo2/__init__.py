@@ -1,1 +1,1 @@
-from .sm2_algo import *
+from .sm_two import *
