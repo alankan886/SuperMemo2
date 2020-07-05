@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 classifiers = [
-    'Development Status :: 5 - Production/Stable',
+    'Development Status :: 3 - Alpha',
     'Intended Audience :: Education',
     'Operating System :: OS Independent',
     'License :: OSI Approved :: MIT License',
@@ -10,12 +10,12 @@ classifiers = [
 
 setup(
   name='supermemo2',
-  version='0.0.1',
+  version='0.0.2',
   description='Implements the SuperMemo-2/SM-2 algorithm for spaced repetition learning.',
-  long_description=open('README.md').read() + '\n\n' + open('CHANGELOG.txt').read(),
-  url='',  
+  long_description=open('README.md').read() + '\n\n' + open('CHANGELOG.md').read(),
+  url='https://github.com/alankan2004/SuperMemo2',  
   author='Alan Kan',
-  author_email='alankan2004@gmail.com',
+  author_email='',
   license='MIT', 
   classifiers=classifiers,
   keywords='spaced-repetition SuperMemo-2 SM-2 SuperMemo',
