@@ -119,7 +119,7 @@ print(sm_two.next_review)
 
 <br/>
 
-#### SuperMemoTwo.json( )
+### SuperMemoTwo.json( )
 > Returns new information in json format.
 
 Information like...
@@ -131,7 +131,7 @@ Information like...
 
 <br/>
 
-#### SuperMemoTwo.new_sm_two()
+### SuperMemoTwo.new_sm_two()
 > Calculates the new_repetitions, new_easiness and new_interval values.
 
 **NOTE:** If you make any changes to an existing instance's attributes, you most likely will need to call this method to re-calculate the values.
