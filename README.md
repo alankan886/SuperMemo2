@@ -199,5 +199,5 @@ And so on.
 
  - [ ] More unit and integration testing on the functions
  - [ ] Check which different Python versions before 3.7 the package can run on.
- - [ ] Add some basic background introduction on SuperMemo-2 (Like the quality values).
+ - [x] Add some basic background introduction on SuperMemo-2 (Like the quality values).
  - [ ] Look for good practices for designing a package for user experiences.
