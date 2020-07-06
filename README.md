@@ -10,13 +10,15 @@ A package that implemented the famous spaced repetition algorithm SuperMemo-2/SM
 
 ## Table of Contents
 
- - Motivation
- - Requirements
- - Installation
- - Features
- - Quickstart
- - To-do
+ - [Motivation](#motivation)
+ - [Requirements](#requirements)
+ - [Installation](#installation)
+ - [Quick Intro to SuperMemo-2](#qism2)
+ - [Features](#features)
+ - [Quickstart](#quickstart)
+ - [To-do](#todo)
 
+<a name="motivation"/> </br>
 ## Motivation
 The motivation behind making this package was for my API. I'm making a RESTful API for spaced repetition learning called CYA, I was planning on adding the feature of calculating the next review date, then I came across SM-2.
 
@@ -24,10 +26,12 @@ I assumed there would be a package I can import since it's well known and been a
 
 :books: If you are curious of what spaced repetition is, check this out: [https://ncase.me/remember/](https://ncase.me/remember/)
 
+<a name="requirements"/> </br>
 ## Requirements
 
 :one: Python 3.7 <br/> :two: pip
 
+<a name="installation"/> </br>
 ## Installation
 To install the package, you may do...
 
@@ -37,12 +41,41 @@ Now you can use the package in Python 3!
 
 :page_facing_up: Make sure you are installing for Python 3, Python 2 is **NOT** supported.
 
+<a name="qism2"/> </br>
+## Quick Intro to SuperMemo-2
+
+#### Quality
+> The quality of your response by recalling the answer from a scale from 0 to 5.
+
+	0 - complete blackout
+	1 - incorrect response; the correct one remembered
+	2 - incorrect response; where the correct one seemed easy to recall
+	3 - correct response recalled with serious difficulty
+	4 - correct response after a hesitation
+	5 - perfect response
+
+#### Interval
+> The interval is the amount of days you have between now (if you just reviewed) and the next review date.
+
+#### Easiness
+> The easiness is the how easy it was to recall the answer.
+
+	1.3 <= Easiness <= infinite, where 1.3 is the most difficult to recall, you can graduate the card after a certain value of easiness is reached.
+
+**NOTE:** On the first visit, easiness starts off with 2.5.
+
+#### Repetitions
+> The repetitions is the number of times the attempts have a quality larger than or equal to 3 in a row.
+> The repetitions value is set to 0 when quality of the attempt is lower than 3.
+
+
+<a name="features"/> </br>
 ## Features
 :mega: Implements the SM-2 algorithm. <br/> :mega: Calculates the next review date for the task you are learning using the algorithm.
 
 ### SuperMemoTwo(quality, interval=0, repetitions=0, easiness=2.5, first_visit=False, last_review=datetime.date.today())
 
-Input types...
+#### Input Types
 
  - *quality: int*
  - *interval: int*
@@ -51,7 +84,7 @@ Input types...
  - *first_visit: boolean*
  - *last_review: **string** or **datetime.date objects***
 
-Default values...
+#### Default Values
  - *interval = 0*
  - *repetitions = 0*
  - *easiness = 2.5*
@@ -60,10 +93,28 @@ Default values...
 
 **NOTE:** The default value for interval, repetitions and easiness are the values for the very first attempt.
 
-So if you the task that you learning is completely new, you may create the instance like this...
+So if the task that you learning is completely new and you just learned it today, you may create the instance like this...
+
 ```
 # To create an instance when the task is completely new
 sm_two = SuperMemoTwo(quality=3, first_visit=True)
+```
+<br/>
+
+#### Addition Attributes
+- *new_interval*
+- *new_repetitions*
+- *new_easiness*
+- *next_review*
+
+To access these attributes just like how you access the other ones...
+```
+from supermemo2 import SMTwo
+
+sm_two = SMTwo(quality=3, first_visited=True, last_review="2020-07-05")
+
+# Prints 2020-07-06
+print(sm_two.next_review)
 ```
 
 <br/>
@@ -89,6 +140,8 @@ Information like...
 
 **Example**
 ```
+from supermemo2 import SMTwo
+
 # Creating a SuperMemoTwo instance
 sm_two = SMTwo(quality=3, interval=24, repetitions=3, easiness=1.7)
 
@@ -107,7 +160,7 @@ sm_two.new_sm_two()
 # Prints 2020-07-25, now you have the updated values
 print(sm_two.next_review)
 ```
-
+<a name="quickstart"/> </br>
 ## Quickstart
 
 **NOTE:** The package DOES NOT record the values, you would need to store the values somewhere. For me, I'm using this package for my CYA API, so all the records will be stored on AWS cloud.
@@ -141,10 +194,10 @@ print(next_next_sm_two.next_review)
 ```
 And so on.
 
-
+<a name="todo"/> </br>
 ## To-do
 
- - More unit and integration testing on the functions
- - Check which different Python versions before 3.7 the package can run on.
- - Add some basic background introduction on SuperMemo-2 (Like the quality values).
- - Look for good practices for designing a package for user experiences.
+ - [ ] More unit and integration testing on the functions
+ - [ ] Check which different Python versions before 3.7 the package can run on.
+ - [ ] Add some basic background introduction on SuperMemo-2 (Like the quality values).
+ - [ ] Look for good practices for designing a package for user experiences.
