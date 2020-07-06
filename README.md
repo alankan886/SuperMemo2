@@ -8,6 +8,14 @@ A package that implemented the famous spaced repetition algorithm SuperMemo-2/SM
 
 :paperclip: The implementation of the algorithm is followed by [https://www.supermemo.com/en/archives1990-2015/english/ol/sm2](https://www.supermemo.com/en/archives1990-2015/english/ol/sm2).
 
+## Table of Contents
+
+ - Motivation
+ - Requirements
+ - Installation
+ - Features
+ - Quickstart
+ - To-do
 
 ## Motivation
 The motivation behind making this package was for my API. I'm making a RESTful API for spaced repetition learning called CYA, I was planning on adding the feature of calculating the next review date, then I came across SM-2.
@@ -18,8 +26,7 @@ I assumed there would be a package I can import since it's well known and been a
 
 ## Requirements
 
-:one: Python 3.7
-:two: pip
+:one: Python 3.7 <br/> :two: pip
 
 ## Installation
 To install the package, you may do...
@@ -30,9 +37,8 @@ Now you can use the package in Python 3!
 
 :page_facing_up: Make sure you are installing for Python 3, Python 2 is **NOT** supported.
 
-## Feature
-:mega: Implements the SM-2 algorithm.
-:mega: Calculates the next review date for the task you are learning using the algorithm.
+## Features
+:mega: Implements the SM-2 algorithm. <br/> :mega: Calculates the next review date for the task you are learning using the algorithm.
 
 ### SuperMemoTwo(quality, interval=0, repetitions=0, easiness=2.5, first_visit=False, last_review=datetime.date.today())
 
@@ -60,6 +66,8 @@ So if you the task that you learning is completely new, you may create the insta
 sm_two = SuperMemoTwo(quality=3, first_visit=True)
 ```
 
+<br/>
+
 #### SuperMemoTwo.json( )
 > Returns new information in json format.
 
@@ -70,10 +78,14 @@ Information like...
 	- new_easiness: the new easiness value.
 	- new_interval: the new interval value.
 
+<br/>
+
 #### SuperMemoTwo.new_sm_two()
 > Calculates the new_repetitions, new_easiness and new_interval values.
 
 **NOTE:** If you make any changes to an existing instance's attributes, you most likely will need to call this method to re-calculate the values.
+
+<br/>
 
 **Example**
 ```
@@ -96,12 +108,12 @@ sm_two.new_sm_two()
 print(sm_two.next_review)
 ```
 
-## Quick Start
+## Quickstart
 
 **NOTE:** The package DOES NOT record the values, you would need to store the values somewhere. For me, I'm using this package for my CYA API, so all the records will be stored on AWS cloud.
 
 For example, let's say you are learning "Hello" in Spanish, which would be "Hola".
-
+<br/>
 You can start off with...
 ```
 from supermemo2 import SMTwo
