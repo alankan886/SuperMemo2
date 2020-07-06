@@ -1,5 +1,8 @@
 Change Log
 ==========
+### 0.0.3 2020-07-05 Documentation Update
+- Added new section about SuperMemo-2 in documentation, and fixed some formats in README.
+
 ### 0.0.2 2020-07-05 Refactored feature
 - Refactored the supermemo2 algorithm code into a simpler structure, and reduced unnecessary methods in the class.
 
