@@ -3,7 +3,7 @@ import datetime
 date_fmt = "%Y-%m-%d"
 
 class SMTwo:
-    def __init__(self, quality: int, interval: int = 0, repetitions: int = 0, easiness: float = 2.5, first_visit: bool = False, last_review: datetime.date = datetime.date.today()):
+    def __init__(self, quality: int, interval: int = 0, repetitions: int = 1, easiness: float = 2.5, first_visit: bool = False, last_review: datetime.date = datetime.date.today()):
         self.quality = quality
         self.easiness = easiness
         self.interval = interval
@@ -29,13 +29,13 @@ class SMTwo:
             self.last_review = self.set_str_to_date_type(self.last_review)
 
         if self.quality < 3:
-            self.new_repetitions = 0
+            self.new_repetitions = 1
             self.new_interval = 1
             self.new_easiness = self.easiness
         else:
-            if self.repetitions == 0:
+            if self.repetitions == 1:
                 self.new_interval = 1
-            elif self.repetitions == 1:
+            elif self.repetitions == 2:
                 self.new_interval = 6
             else:
                 self.new_interval = round(self.interval * self.easiness)
@@ -66,8 +66,8 @@ class SMTwo:
 
             if type(self.repetitions) != int:
                 raise TypeError("Repetitions value should be an integer.")
-            elif self.repetitions != 0:
-                raise ValueError("Repetitions value should be 0 if this is the very first time.")
+            elif self.repetitions != 1:
+                raise ValueError("Repetitions value should be 1 if this is the very first time.")
 
             if type(self.easiness) != float:
                 raise TypeError("Easiness value should be a float.")
