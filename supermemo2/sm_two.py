@@ -47,7 +47,7 @@ class SMTwo:
         if self.new_easiness < 1.3:
             self.new_easiness = 1.3
 
-        self.next_review = str( self.last_review + datetime.timedelta(days=self.new_interval))
+        self.next_review = str(self.last_review + datetime.timedelta(days=self.new_interval))
 
     def json(self) -> dict:
         return {
@@ -58,6 +58,7 @@ class SMTwo:
         }
 
     def invalid_input_handler(self):
+        # Error check for when repetitions is 1, the previous interval must be 1
         if self.first_visit:
             if type(self.interval) != int:
                 raise TypeError("Interval value should be an integer.")
