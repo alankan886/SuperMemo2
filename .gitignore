@@ -11,5 +11,9 @@ __pycache__
 dist
 old_dist
 *.egg-info
-
 README.txt
+
+.*
+
+# pytest-cov
+htmlcov
