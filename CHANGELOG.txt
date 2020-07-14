@@ -1,12 +1,15 @@
 Change Log
 ==========
-### 0.0.4 2020-07-10 Minor bug fix
+## 0.1.0 2020-07-14 Tests added, Update not required
+- Added passing unit tests with a coverage of 100%.
+
+### 0.0.4 2020-07-10 Minor bug fix, Update recommended
 - Fixed interval calculation error when q < 3.
 
-### 0.0.3 2020-07-06 Documentation Update
+### 0.0.3 2020-07-06 Documentation Update, Update not required
 - Added new section about SuperMemo-2 in documentation, and fixed some formats in README.
 
-### 0.0.2 2020-07-05 Refactored feature
+### 0.0.2 2020-07-05 Refactored feature, Update recommended
 - Refactored the supermemo2 algorithm code into a simpler structure, and reduced unnecessary methods in the class.
 
 ## 0.0.1 2020-07-02 Feature release
