@@ -197,7 +197,7 @@ And so on.
 <a name="todo"/> </br>
 ## To-do
 
- - [ ] More unit testing on the functions
+ - [x] More unit testing on the functions
  - [ ] Check which different Python versions before 3.7 the package can run on.
  - [x] ~~Add some basic background introduction on SuperMemo-2 (Like the quality values).~~
  - [ ] Look for good practices for designing a package for user experiences.
