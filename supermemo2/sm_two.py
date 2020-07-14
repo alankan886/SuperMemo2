@@ -26,7 +26,13 @@ class SMTwo:
         self.invalid_input_handler()
 
         if type(self.last_review) == str:
-            self.last_review = self.set_str_to_date_type(self.last_review)
+            try:
+                self.last_review = self.set_str_to_date_type(self.last_review)
+            except:
+                raise ValueError("The date format should be year-month-day, i.e. 2020-07-14.")
+        elif type(self.last_review) != datetime.date:
+            raise TypeError
+        
 
         if self.quality < 3:
             self.new_repetitions = 1
@@ -60,21 +66,32 @@ class SMTwo:
     def invalid_input_handler(self):
         # Error check for when repetitions is 1, the previous interval must be 1
         if self.first_visit:
-            if type(self.interval) != int:
-                raise TypeError("Interval value should be an integer.")
-            elif self.interval != 0:
+            if self.interval != 0 and type(self.interval) == int:
                 raise ValueError("Interval value should be 0 if this is the very first time.")
 
-            if type(self.repetitions) != int:
-                raise TypeError("Repetitions value should be an integer.")
-            elif self.repetitions != 1:
+            if self.repetitions != 1 and type(self.repetitions) == int:
                 raise ValueError("Repetitions value should be 1 if this is the very first time.")
-
-            if type(self.easiness) != float:
-                raise TypeError("Easiness value should be a float.")
-            elif self.easiness != 2.5:
-                raise ValueError("Easiness value should start off with 2.5 if this is the very first time.")
-        else:
-            if self.easiness < 1.3:
-                raise ValueError("Easiness value should not be smaller than 1.3!")
             
+            if self.easiness != 2.5 and type(self.easiness) == float:
+                raise ValueError("Easiness value should start off with 2.5 if this is the very first time.")
+        
+        if type(self.interval) != int:
+            raise TypeError("Interval value should be an integer.")
+
+        if type(self.repetitions) != int:
+            raise TypeError("Repetitions value should be an integer.")
+
+        if type(self.easiness) != float:
+            raise TypeError("Easiness value should be a float.")
+        
+        if type(self.first_visit) != bool:
+            raise TypeError("First visit should be a boolean value.")
+
+        if type(self.quality) != int:
+            raise TypeError("Quality value should be an integer.")
+
+        if self.quality < 0 or self.quality > 5:
+            raise ValueError("Quality value is on a scale of 0 to 5.")
+        
+        if self.easiness < 1.3:
+            raise ValueError("Easiness value should not be smaller than 1.3!")
