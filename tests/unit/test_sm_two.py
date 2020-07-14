@@ -51,14 +51,6 @@ def first_visit(request):
     '''Returns a SuperMemo-2 objcet with a first visit values.'''
     return SMTwo(*request.param)
 
-# @pytest.fixture(params=[
-#     [3, 0, 1, 2.6, False, "07-20-2020"],
-# ])
-
-# def invalid_first_visit(request):
-#     '''Returns a first visited SuperMemo object that has the wrong values'''
-#     return SMTwo(*request.param)
-
 @pytest.fixture(params=[
     [3, 1, 2, 2.5, False, datetime.strptime("2020-07-13", "%Y-%m-%d").date()],
     [4, 1, 2, 2.5, False, "2020-07-13"]
@@ -85,12 +77,44 @@ def test_first_visit_reset(first_visit):
     assert first_visit.new_interval == 1
     assert first_visit.new_repetitions == 2
 
-# def test_invalid_first_visit_error_handler(invalid_first_visit):
-#     with pytest.raises(Exception):
-        # invalid_first_visit.interval
-        # invalid_first_visit.repetitions
-        # invalid_first_visit.easiness
-        # invalid_first_visit.last_review
+@pytest.mark.parametrize("quality, interval, repetitions, easiness, first_visit, last_review", [
+    (0, 1, 1, 2.5, True, "2020-07-14"),
+    (0, -1, 1, 2.5, True, "2020-07-14"),
+    (1, 0, 0, 2.5, True, "2020-07-14"),
+    (1, 0, 2, 2.5, True, "2020-07-14"),
+    (1, 0, 1, 2.4, True, "2020-07-14"),
+    (1, 0, 1, 2.6, True, "2020-07-14"),
+    (-1, 0, 1, 2.5, True, "2020-07-14"),
+    (6, 0, 1, 2.5, True, "2020-07-14"),
+    (5, 0, 1, 2.5, True, ""),
+    (3, 0, 1, 2.5, True, "abcabc"),
+    (3, 0, 1, 2.5, True, "06-15-2020"),
+    (123, 123, 123, 123, True, "2020-07-14")
+])
+def test_first_visit_input_value_error_handler(quality, interval, repetitions, easiness, first_visit, last_review):
+    with pytest.raises(ValueError):
+        SMTwo(quality, interval, repetitions, easiness, first_visit, last_review)
+
+@pytest.mark.parametrize("quality, interval, repetitions, easiness, first_visit, last_review", [
+    (2, 30, 4, 1.0, False, "2020-05-06")
+])
+def test_nth_visit_input_value_error_handler(quality, interval, repetitions, easiness, first_visit, last_review):
+    with pytest.raises(ValueError):
+        SMTwo(quality, interval, repetitions, easiness, first_visit, last_review)
+
+@pytest.mark.parametrize("quality, interval, repetitions, easiness, first_visit, last_review", [
+    ("abc", 0, 1, 2.5, True, "2020-07-14"),
+    (1, "cba", 1, 2.5, True, "2020-07-14"),
+    (2, 0, "abc", 2.5, True, "2020-07-14"),
+    (3, 0, 1, "efg", True, "2020-07-14"),
+    (3, 0, 1, 2.5, "abc", "2020-07-14"),
+    (4, 0, 1, 2.5, True, 123),
+    ("abc", "def", "hij", "lmn", "opr", "xyz")
+])
+
+def test_input_type_error_handler(quality, interval, repetitions, easiness, first_visit, last_review):
+    with pytest.raises(TypeError):
+        SMTwo(quality, interval, repetitions, easiness, first_visit, last_review)
 
 def test_repetitions_equals_two_reset(repetitions_equals_two):
     assert repetitions_equals_two.interval == 1
