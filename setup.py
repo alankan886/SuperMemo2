@@ -10,7 +10,7 @@ classifiers = [
 
 setup(
   name='supermemo2',
-  version='0.0.4',
+  version='0.1.0',
   description='Implements the SuperMemo-2/SM-2 algorithm for spaced repetition learning.',
   long_description=open('README.txt').read() + '\n\n' + open('CHANGELOG.txt').read(),
   long_description_content_type='text/markdown',
@@ -20,7 +20,7 @@ setup(
   license='MIT', 
   classifiers=classifiers,
   keywords='spaced-repetition SuperMemo-2 SM-2 SuperMemo',
-  packages=find_packages(exclude=['tests', 'test_*', 'old_dist']),
-  exclude_package_data={"": ['tests']},
+  packages=find_packages(exclude=('tests', 'test_*', 'old_dist', 'venv')),
+  include_package_data=True,
   install_requires=[''] 
 )
