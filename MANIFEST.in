@@ -1,1 +1,2 @@
 global-include *.txt *.py
+global-exclude venv tests
