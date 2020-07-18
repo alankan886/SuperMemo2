@@ -111,7 +111,6 @@ def test_nth_visit_input_value_error_handler(quality, interval, repetitions, eas
     (4, 0, 1, 2.5, True, 123),
     ("abc", "def", "hij", "lmn", "opr", "xyz")
 ])
-
 def test_input_type_error_handler(quality, interval, repetitions, easiness, first_visit, last_review):
     with pytest.raises(TypeError):
         SMTwo(quality, interval, repetitions, easiness, first_visit, last_review)
