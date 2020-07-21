@@ -1,128 +1,86 @@
-import pytest
 from datetime import datetime 
 
+import pytest
 from supermemo2 import SMTwo
 
-@pytest.fixture(params=[
-    [0, 60, 7, 1.5, False, datetime.strptime("2020-07-13", "%Y-%m-%d").date()],
-    [1, 30, 4, 1.6, False, datetime.strptime("2020-07-13", "%Y-%m-%d").date()],
-    [2, 15, 3, 1.7, False, datetime.strptime("2020-07-13", "%Y-%m-%d").date()],
-    [0, 60, 7, 1.5, False, "2020-07-13"],
-    [1, 30, 4, 1.6, False, "2020-07-13"],
-    [2, 15, 3, 1.7, False, "2020-07-13"],
-    [1, 0, 1, 2.5, True, datetime.strptime("2020-07-13", "%Y-%m-%d").date()],
-    [1, 0, 1, 2.5, True, "2020-07-13"],
-    [3, 31, 6, 1.3, False, datetime.strptime("2020-07-13", "%Y-%m-%d").date()],
-    [0, 24, 4, 1.4, False, datetime.strptime("2020-07-13", "%Y-%m-%d").date()],
-    [3, 12, 5, 1.4, False, "2020-07-13"]
-])
-def anything(request):
-    '''Returns a SuperMemo-2 object.'''
-    return SMTwo(*request.param)
-
-@pytest.fixture(params=[
-    [0, 60, 7, 1.5, False, datetime.strptime("2020-07-13", "%Y-%m-%d").date()],
-    [1, 30, 4, 1.6, False, datetime.strptime("2020-07-13", "%Y-%m-%d").date()],
-    [2, 15, 3, 1.7, False, datetime.strptime("2020-07-13", "%Y-%m-%d").date()],
-    [0, 60, 7, 1.5, False, "2020-07-13"],
-    [1, 30, 4, 1.6, False, "2020-07-13"],
-    [2, 15, 3, 1.7, False, "2020-07-13"],
-    [1, 0, 1, 2.5, True, datetime.strptime("2020-07-13", "%Y-%m-%d").date()],
-    [1, 0, 1, 2.5, True, "2020-07-13"]
-])
-def quality_less_than_three_nth_visit(request):
-    '''Returns a SuperMemo-2 objcet with a quality of 0'''
-    return SMTwo(*request.param)
-
-@pytest.fixture(params=[
-    [3, 31, 6, 1.3, False, datetime.strptime("2020-07-13", "%Y-%m-%d").date()],
-    [3, 24, 4, 1.4, False, datetime.strptime("2020-07-13", "%Y-%m-%d").date()],
-    [3, 12, 5, 1.4, False, "2020-07-13"]
-])
-def quality_three_nth_visit_break_easiness_lowerbound(request):
-    '''Returns a SuperMemo-2 objcet with a quality of 3'''
-    return SMTwo(*request.param)
-
-@pytest.fixture(params=[
-    [3, 0, 1, 2.5, True, datetime.strptime("2020-07-13", "%Y-%m-%d").date()],
-    [4, 0, 1, 2.5, True, "2020-07-13"]
-])
-def first_visit(request):
-    '''Returns a SuperMemo-2 objcet with a first visit values.'''
-    return SMTwo(*request.param)
-
-@pytest.fixture(params=[
-    [3, 1, 2, 2.5, False, datetime.strptime("2020-07-13", "%Y-%m-%d").date()],
-    [4, 1, 2, 2.5, False, "2020-07-13"]
-])
-def repetitions_equals_two(request):
-    '''Returns a SuperMemo-2 objcet with a repetitions of 1'''
-    return SMTwo(*request.param)
+from ..conftest import sm_two
+from ..test_cases import (
+    attributes,
+    anything,
+    quality_less_than_three_nth_visit,
+    quality_three_nth_visit_break_easiness_lowerbound,
+    first_visit,
+    repetitions_equals_two,
+    first_visit_input_value_error_handler,
+    nth_visit_input_value_error_handler,
+    input_type_error_handler
+)
 
 
-def test_attributes_when_quality_less_than_three(quality_less_than_three_nth_visit):
-    old_easiness = quality_less_than_three_nth_visit.easiness
+def load_test_cases(sm_two, quality, interval, repetitions, easiness, first_visit, last_review):
+    sm_two.quality = quality
+    sm_two.interval = interval
+    sm_two.repetitions = repetitions
+    sm_two.easiness = easiness
+    sm_two.first_visit = first_visit
+    sm_two.last_review = last_review
+
+    sm_two.new_sm_two()
+
+@pytest.mark.parametrize(attributes, quality_less_than_three_nth_visit)
+def test_attributes_when_quality_less_than_three(sm_two, quality, interval, repetitions, easiness, first_visit, last_review):
+    load_test_cases(sm_two, quality, interval, repetitions, easiness, first_visit, last_review)
     
-    assert quality_less_than_three_nth_visit.new_easiness == old_easiness
-    assert quality_less_than_three_nth_visit.new_interval == 1
-    assert quality_less_than_three_nth_visit.new_repetitions == 1
+    old_easiness = sm_two.easiness
 
-def test_easiness_lowerbound_reset(quality_three_nth_visit_break_easiness_lowerbound):
-    quality_three_nth_visit_break_easiness_lowerbound.new_sm_two()
-    assert quality_three_nth_visit_break_easiness_lowerbound.new_easiness == 1.3
+    assert sm_two.new_easiness == old_easiness
+    assert sm_two.new_interval == 1
+    assert sm_two.new_repetitions == 1
 
-def test_first_visit_reset(first_visit):
-    assert first_visit.interval == 0
-    assert first_visit.repetitions == 1
-    assert first_visit.new_interval == 1
-    assert first_visit.new_repetitions == 2
+@pytest.mark.parametrize(attributes, quality_three_nth_visit_break_easiness_lowerbound)
+def test_easiness_lowerbound_reset(sm_two, quality, interval, repetitions, easiness, first_visit, last_review):
+    load_test_cases(sm_two, quality, interval, repetitions, easiness, first_visit, last_review)
 
-@pytest.mark.parametrize("quality, interval, repetitions, easiness, first_visit, last_review", [
-    (0, 1, 1, 2.5, True, "2020-07-14"),
-    (0, -1, 1, 2.5, True, "2020-07-14"),
-    (1, 0, 0, 2.5, True, "2020-07-14"),
-    (1, 0, 2, 2.5, True, "2020-07-14"),
-    (1, 0, 1, 2.4, True, "2020-07-14"),
-    (1, 0, 1, 2.6, True, "2020-07-14"),
-    (-1, 0, 1, 2.5, True, "2020-07-14"),
-    (6, 0, 1, 2.5, True, "2020-07-14"),
-    (5, 0, 1, 2.5, True, ""),
-    (3, 0, 1, 2.5, True, "abcabc"),
-    (3, 0, 1, 2.5, True, "06-15-2020"),
-    (123, 123, 123, 123, True, "2020-07-14")
-])
-def test_first_visit_input_value_error_handler(quality, interval, repetitions, easiness, first_visit, last_review):
+    assert sm_two.new_easiness == 1.3
+
+@pytest.mark.parametrize(attributes, first_visit)
+def test_first_visit_reset(sm_two, quality, interval, repetitions, easiness, first_visit, last_review):
+    load_test_cases(sm_two, quality, interval, repetitions, easiness, first_visit, last_review)
+
+    assert sm_two.interval == 0
+    assert sm_two.repetitions == 1
+    assert sm_two.new_interval == 1
+    assert sm_two.new_repetitions == 2
+
+@pytest.mark.parametrize(attributes, first_visit_input_value_error_handler)
+def test_first_visit_input_value_error_handler(sm_two, quality, interval, repetitions, easiness, first_visit, last_review):
     with pytest.raises(ValueError):
-        SMTwo(quality, interval, repetitions, easiness, first_visit, last_review)
+        load_test_cases(sm_two, quality, interval, repetitions, easiness, first_visit, last_review)
 
-@pytest.mark.parametrize("quality, interval, repetitions, easiness, first_visit, last_review", [
-    (2, 30, 4, 1.0, False, "2020-05-06")
-])
-def test_nth_visit_input_value_error_handler(quality, interval, repetitions, easiness, first_visit, last_review):
+@pytest.mark.parametrize(attributes, nth_visit_input_value_error_handler)
+def test_nth_visit_input_value_error_handler(sm_two, quality, interval, repetitions, easiness, first_visit, last_review):
     with pytest.raises(ValueError):
-        SMTwo(quality, interval, repetitions, easiness, first_visit, last_review)
+        load_test_cases(sm_two, quality, interval, repetitions, easiness, first_visit, last_review)
 
-@pytest.mark.parametrize("quality, interval, repetitions, easiness, first_visit, last_review", [
-    ("abc", 0, 1, 2.5, True, "2020-07-14"),
-    (1, "cba", 1, 2.5, True, "2020-07-14"),
-    (2, 0, "abc", 2.5, True, "2020-07-14"),
-    (3, 0, 1, "efg", True, "2020-07-14"),
-    (3, 0, 1, 2.5, "abc", "2020-07-14"),
-    (4, 0, 1, 2.5, True, 123),
-    ("abc", "def", "hij", "lmn", "opr", "xyz")
-])
-def test_input_type_error_handler(quality, interval, repetitions, easiness, first_visit, last_review):
+@pytest.mark.parametrize(attributes, input_type_error_handler)
+def test_input_type_error_handler(sm_two, quality, interval, repetitions, easiness, first_visit, last_review):
     with pytest.raises(TypeError):
-        SMTwo(quality, interval, repetitions, easiness, first_visit, last_review)
+        load_test_cases(sm_two, quality, interval, repetitions, easiness, first_visit, last_review)
 
-def test_repetitions_equals_two_reset(repetitions_equals_two):
-    assert repetitions_equals_two.interval == 1
-    assert repetitions_equals_two.repetitions == 2
-    assert repetitions_equals_two.new_interval == 6
-    assert repetitions_equals_two.new_repetitions == 3
+@pytest.mark.parametrize(attributes, repetitions_equals_two)
+def test_repetitions_equals_two_reset(sm_two, quality, interval, repetitions, easiness, first_visit, last_review):
+    load_test_cases(sm_two, quality, interval, repetitions, easiness, first_visit, last_review)
 
-def test_json(anything):
-    json = anything.json()
+    assert sm_two.interval == 1
+    assert sm_two.repetitions == 2
+    assert sm_two.new_interval == 6
+    assert sm_two.new_repetitions == 3
+
+@pytest.mark.parametrize(attributes, anything)
+def test_json(sm_two, quality, interval, repetitions, easiness, first_visit, last_review):
+    load_test_cases(sm_two, quality, interval, repetitions, easiness, first_visit, last_review)
+
+    json = sm_two.json()
     assert type(json) == dict
     assert "new_interval" in json
     assert "new_repetitions" in json
