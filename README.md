@@ -1,10 +1,13 @@
 # SuperMemo2
-![Python](https://img.shields.io/badge/Python-3.7+-blue.svg?logo=python&longCache=true&logoColor=white&colorB=5e81ac&style=flat-square&colorA=4c566a)    ![Version](https://img.shields.io/badge/Version-0.0.4-light--blue.svg?style=flat-square&colorA=4c566a&colorB=90A2BC) ![Build](https://img.shields.io/badge/Build-Passing-light--green.svg?style=flat-square&colorA=4c566a&colorB=90BCA8) ![Coverage](https://img.shields.io/badge/Coverage-100%25-light--green.svg?style=flat-square&colorA=4c566a&colorB=90BCA8)
+![Python](https://img.shields.io/badge/Python-3.7+-blue.svg?logo=python&longCache=true&logoColor=white&colorB=5e81ac&style=flat-square&colorA=4c566a) ![Version](https://img.shields.io/badge/Version-0.0.4-light--blue.svg?style=flat-square&colorA=4c566a&colorB=90A2BC) ![Version](https://img.shields.io/badge/Downloads-1.5k+-light--blue.svg?style=flat-square&colorA=4c566a&colorB=90A2BC) ![Build](https://img.shields.io/badge/Build-Passing-light--green.svg?style=flat-square&colorA=4c566a&colorB=90BCA8) ![Coverage](https://img.shields.io/badge/Coverage-100%25-light--green.svg?style=flat-square&colorA=4c566a&colorB=90BCA8)
+
 ![Twitter](https://img.shields.io/twitter/url/https/twitter.com/alankan2004.svg?style=social&label=Follow%20%40alankan2004)
 
 A package that implemented the famous spaced repetition algorithm SuperMemo-2/SM-2. A lot of software that does spaced repetition learning based their algorithm on SM-2, and there are a lot of research done around it.
 
 :package: Link to the PyPI page: [https://pypi.org/project/supermemo2/](https://pypi.org/project/supermemo2/)
+
+:floppy_disk: Website that tracks the downloads: [https://pepy.tech/project/SuperMemo2](https://pepy.tech/project/SuperMemo2)
 
 :paperclip: The implementation of the algorithm is followed by [https://www.supermemo.com/en/archives1990-2015/english/ol/sm2](https://www.supermemo.com/en/archives1990-2015/english/ol/sm2).
 
