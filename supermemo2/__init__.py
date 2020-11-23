@@ -1,1 +1,1 @@
-from .sm_two import *
+from .models.sm_two import SMTwo
