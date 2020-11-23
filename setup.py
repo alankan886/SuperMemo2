@@ -10,7 +10,7 @@ classifiers = [
 
 setup(
   name='supermemo2',
-  version='0.1.0',
+  version='1.0.0',
   description='Implements the SuperMemo-2/SM-2 algorithm for spaced repetition learning.',
   long_description=open('README.txt').read() + '\n\n' + open('CHANGELOG.txt').read(),
   long_description_content_type='text/markdown',
