@@ -24,8 +24,13 @@ class Prev:
     @repetitions.setter
     def repetitions(self, value):
         print('set prev rep')
-        self.__sm_two_obj.interval = 999
-        pass
+        if self.__repetitions == 1:
+            self.__sm_two_obj.interval = 1
+        elif self.__repetitions == 2:
+            self.__sm_two_obj.interval = 6
+        else:
+            # wrong, missing .interval
+            self.__sm_two_obj = round(self.__interval * self.__easiness)
 
     def json(self):
         return json.dumps(
