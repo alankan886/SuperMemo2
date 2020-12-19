@@ -7,10 +7,12 @@ import attr
 from supermemo2.models.prev import Prev
 from supermemo2.exceptions import DateFormatError
 
-
+# TODO: I might need to move the prev validators to Prev module,
+# to cover the case when prev values are updated after instantiated
 @attr.s()
 class SMTwo:
     # listener on quality and last_review is needed
+    # TODO: almost all these attrs should be private variable (not quality tho and last_review), user should only modify prev values
     quality = attr.ib()
     first_visit = attr.ib()
     easiness = attr.ib(default=2.5, converter=float)
@@ -48,6 +50,12 @@ class SMTwo:
         if self.first_visit and value != 2.5:
             setattr(self, attribute.name, 2.5)
             warnings.warn("easiness automatically set to 2.5, easiness should be 2.5 for the first visit")
+        
+        # when user input invalid value,
+        # this should be ultra rare because the program will never hand back a value less than 1.3 to the user
+        if value < 1.3:
+            message = "easiness cannot be less than 1.3"
+            raise ValueError(message)
 
     @interval.validator
     def _interval_first_visit(self, attribute, value):
@@ -74,24 +82,39 @@ class SMTwo:
             raise TypeError(message)
 
     def __attrs_post_init__(self):
-        self.__prev = Prev(self, self.easiness, self.interval, self.repetitions)
+        # this should be a private var
+        self.__prev = Prev(self, self.first_visit, self.easiness, self.interval, self.repetitions)
+        self.first_visit = False
+        
         if self.quality < 3:
             self.interval = 1
             self.repetitions = 1
         else:
-            if self.repetitions == 1:
-                pass
-            elif self.repetitions == 2:
-                self.interval = 6
-            else:
-                self.interval = round(self.interval * self.easiness)
+            self.calc_interval()
+            self.calc_repetitions()
+            self.calc_easiness()
 
-            self.repetitions += 1
-            self.easiness = self.easiness - 0.8 + 0.28 * self.quality - 0.02 * self.quality**2
+        self.calc_next_review()
 
+    def calc_interval(self):
+        if self.prev.repetitions == 1:
+            # if you modifiy attr of an instance after creation, you need to reset it to 1
+            # setting self.interval to self.prev.interval works too, cuz prev.interval will always be 1 if rep is 1.
+            self.interval = 1
+        elif self.prev.repetitions == 2:
+            self.interval = 6
+        else:
+            self.interval = round(self.prev.interval * self.prev.easiness)
+
+    def calc_repetitions(self):
+        self.repetitions = self.prev.repetitions + 1
+    
+    def calc_easiness(self):
+        self.easiness = self.prev.easiness - 0.8 + 0.28 * self.quality - 0.02 * self.quality**2
         if self.easiness < 1.3:
             self.easiness = 1.3
 
+    def calc_next_review(self):
         self.__next_review = self.last_review + timedelta(days=self.interval)
 
     @property
@@ -114,3 +137,10 @@ class SMTwo:
                 "next_review": str(self.next_review),
             }
         )
+
+if __name__ == "__main__":
+    sm_two = SMTwo(3, False, 2.5, 1, 1)
+    # validator is only called when it's first initalized
+    sm_two.prev.interval = 999
+    print(sm_two.prev)
+    print(sm_two.prev.interval)

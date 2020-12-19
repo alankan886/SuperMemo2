@@ -6,6 +6,9 @@ import pytest
 from supermemo2 import SMTwo
 from supermemo2.exceptions import DateFormatError
 
+# TODO: test validator on quality after instantiated
+# TODO: test validator on first_visit after instantiated
+# TODO: test validator on last_review after instantiated
 
 @pytest.mark.parametrize("bad_quality, error", [(False, TypeError), (6, ValueError), (-1, ValueError)])
 def test_quality_invalid_value(bad_quality, error):
@@ -61,7 +64,7 @@ def test_last_review_invalid_value(bad_last_review, error):
 def test_q_less_than_three(quality, first_visit):
     sm_two = SMTwo(quality, first_visit)
     assert sm_two.quality == quality
-    assert sm_two.first_visit == first_visit
+    assert sm_two.first_visit == False
     assert sm_two.easiness == 2.5
     assert sm_two.interval == 1
     assert sm_two.repetitions == 1
@@ -87,7 +90,7 @@ def test_q_less_than_three(quality, first_visit):
 def test_q_larger_than_and_equal_to_three(quality, first_visit, easiness, interval, repetitions, expected_easiness, expected_interval, expected_repetitions):
     sm_two = SMTwo(quality, first_visit, easiness, interval, repetitions)
     assert sm_two.quality == quality
-    assert sm_two.first_visit == first_visit
+    assert sm_two.first_visit == False
     assert sm_two.easiness == expected_easiness
     assert sm_two.interval == expected_interval
     assert sm_two.repetitions == expected_repetitions
@@ -109,7 +112,7 @@ def test_json():
     assert sm_two.json() == json.dumps(
         {
             "quality": 3,
-            "first_visit": True,
+            "first_visit": False,
             "easiness": 2.36,
             "interval": 1,
             "repetitions": 2,
@@ -117,26 +120,3 @@ def test_json():
             "next_review": str(tomorrow)
         }
     )
-
-# @pytest.mark.parametrize("quality", [0, 1, 2, 3, 4, 5])
-# def test_prev(quality):
-#     sm_two = SMTwo(quality=quality, first_visit=True)
-#     prev = sm_two.prev
-#     prev_json = prev.json()
-#     assert prev.prev_easiness == 2.5
-#     assert prev.prev_interval == 0
-#     assert prev.prev_repetitions == 1
-#     assert prev_json == {"prev_easiness": 2.5, "prev_interval": 0, "prev_repetitions": 1}
-
-
-# def test_first_visit_q_less_than_three_bad_values():
-#     """
-#         Test the reset mechanism when easiness, interval and repetitions values are invalid for first visit
-#     """
-#     sm_two = SMTwo(quality=2, first_visit=True, easiness=-1.5, interval=-100, repetitions=-12)
-#     assert sm_two.quality == 2
-#     assert sm_two.easiness == 2.5
-#     assert sm_two.interval == 1
-#     assert sm_two.repetitions == 1
-#     assert sm_two.last_review == date.today()
-#     assert sm_two.next_review == date.today() + timedelta(days=1)
