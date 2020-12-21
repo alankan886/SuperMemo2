@@ -1,11 +1,8 @@
 import pytest
 
-from supermemo2.models import Prev
+from supermemo2.model import SMTwo
 
 
 @pytest.fixture
-def mock_prev():
-    class MockSMTwo:
-        pass
-
-    return Prev(MockSMTwo, False, 3.0, 14, 4)
+def smtwo():
+    return SMTwo()
