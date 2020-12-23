@@ -1,3 +1,4 @@
+import json
 from datetime import date, timedelta
 
 import attr
@@ -17,7 +18,10 @@ class SMTwo:
     __easiness = attr.ib(init=False)
     __interval = attr.ib(init=False)
     __repetitions = attr.ib(init=False)
-    __last_review = attr.ib(init=False, validator=attr.validators.instance_of(date))
+    __last_review = attr.ib(
+        init=False,
+        validator=attr.validators.instance_of(date),
+        on_setattr=attr.setters.validate)
     __next_review = attr.ib(init=False)
     __prev = attr.ib(init=False)
 
@@ -112,7 +116,16 @@ class SMTwo:
         # make sure if quality is less than 4, set next_review date to today
 
     def json(self):
-        pass
+        # add prev and both params
+        map = {
+            "quality": self.__quality,
+            "easiness": self.__prev.easiness,
+            "interval": self.__prev.interval,
+            "repetitions": self.__prev.repetitions,
+            "last_review": str(self.last_review),
+            "next_review": str(self.next_review)
+        }
+        return json.dumps(map)
 
     def dict(self):
         pass
