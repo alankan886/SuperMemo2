@@ -1,23 +1,24 @@
 import json
 from datetime import date, timedelta
+from copy import deepcopy
 
 import pytest
 
-from supermemo2 import first_visit, modify, as_json
+from supermemo2 import first_visit, modify, as_json, as_dict
 
 
 @pytest.mark.parametrize("quality", (0, 1, 2, 3, 4, 5))
-def test_first_visit_default_last_review(quality):
+def test_first_visit_default_review_date(quality):
     smtwo = first_visit(quality)
     smtwo.quality == quality
     smtwo.prev.easiness == 2.5
     smtwo.prev.interval == 1
     smtwo.prev.repetitions == 1
-    smtwo.last_review == date.today()
+    smtwo.prev.review_date == date.today()
 
 
 @pytest.mark.parametrize(
-    "quality, last_review",
+    "quality, review_date",
     (
         [0, date.today() + timedelta(days=1)],
         [1, date.today() + timedelta(days=12)],
@@ -27,63 +28,88 @@ def test_first_visit_default_last_review(quality):
         [5, date.today() + timedelta(days=2)]
     )
 )
-def test_first_visit(quality, last_review):
+def test_first_visit(quality, review_date):
     smtwo = first_visit(quality)
     smtwo.quality == quality
     smtwo.prev.easiness == 2.5
     smtwo.prev.interval == 1
     smtwo.prev.repetitions == 1
-    smtwo.last_review == last_review
+    smtwo.review_date == review_date
 
 
 @pytest.mark.parametrize("quality", (0, 1, 2, 3, 4, 5))
 def test_modify_quality(smtwo_after_calc, quality):
-    new_smtwo = modify(smtwo_after_calc, new_quality=quality)
-    assert new_smtwo.quality == quality
-    assert new_smtwo.prev.easiness == smtwo_after_calc.prev.easiness
-    assert new_smtwo.prev.interval == smtwo_after_calc.prev.interval
-    assert new_smtwo.prev.repetitions == smtwo_after_calc.prev.repetitions
-    assert new_smtwo.last_review == smtwo_after_calc.last_review
+    prev_ez = smtwo_after_calc.prev.easiness
+    prev_inter = smtwo_after_calc.prev.interval
+    prev_rep = smtwo_after_calc.prev.repetitions
+    prev_rd = smtwo_after_calc.prev.review_date
+    modify(smtwo_after_calc, new_quality=quality)
+
+    assert smtwo_after_calc.quality == quality
+    assert smtwo_after_calc.prev.easiness == prev_ez
+    assert smtwo_after_calc.prev.interval == prev_inter
+    assert smtwo_after_calc.prev.repetitions == prev_rep
+    assert smtwo_after_calc.prev.review_date == prev_rd
 
 
 @pytest.mark.parametrize("easiness", (1.3, 2.5, 3.0))
 def test_modify_easiness(smtwo_after_calc, easiness):
-    new_smtwo = modify(smtwo_after_calc, new_easiness=easiness)
-    assert new_smtwo.quality == smtwo_after_calc.quality
-    assert new_smtwo.prev.easiness == easiness
-    assert new_smtwo.prev.interval == smtwo_after_calc.prev.interval
-    assert new_smtwo.prev.repetitions == smtwo_after_calc.prev.repetitions
-    assert new_smtwo.last_review == smtwo_after_calc.last_review
+    prev_q = smtwo_after_calc.quality
+    prev_inter = smtwo_after_calc.prev.interval
+    prev_rep = smtwo_after_calc.prev.repetitions
+    prev_rd = smtwo_after_calc.prev.review_date
+    modify(smtwo_after_calc, new_easiness=easiness)
+
+    assert smtwo_after_calc.quality == prev_q
+    assert smtwo_after_calc.prev.easiness == easiness
+    assert smtwo_after_calc.prev.interval == prev_inter
+    assert smtwo_after_calc.prev.repetitions == prev_rep
+    assert smtwo_after_calc.prev.review_date == prev_rd
 
 
 @pytest.mark.parametrize("interval", (1, 6, 24))
 def test_modify_interval(smtwo_after_calc, interval):
-    new_smtwo = modify(smtwo_after_calc, new_interval=interval)
-    assert new_smtwo.quality == smtwo_after_calc.quality
-    assert new_smtwo.prev.easiness == smtwo_after_calc.prev.easiness
-    assert new_smtwo.prev.interval == interval
-    assert new_smtwo.prev.repetitions == smtwo_after_calc.prev.repetitions
-    assert new_smtwo.last_review == smtwo_after_calc.last_review
+    prev_q = smtwo_after_calc.quality
+    prev_ez = smtwo_after_calc.prev.easiness
+    prev_rep = smtwo_after_calc.prev.repetitions
+    prev_rd = smtwo_after_calc.prev.review_date
+    modify(smtwo_after_calc, new_interval=interval)
+
+    assert smtwo_after_calc.quality == prev_q
+    assert smtwo_after_calc.prev.easiness == prev_ez
+    assert smtwo_after_calc.prev.interval == interval
+    assert smtwo_after_calc.prev.repetitions == prev_rep
+    assert smtwo_after_calc.prev.review_date == prev_rd
 
 
 @pytest.mark.parametrize("repetitions", (1, 2, 99))
 def test_modify_repetitions(smtwo_after_calc, repetitions):
-    new_smtwo = modify(smtwo_after_calc, new_repetitions=repetitions)
-    assert new_smtwo.quality == smtwo_after_calc.quality
-    assert new_smtwo.prev.easiness == smtwo_after_calc.prev.easiness
-    assert new_smtwo.prev.interval == smtwo_after_calc.prev.interval
-    assert new_smtwo.prev.repetitions == repetitions
-    assert new_smtwo.last_review == smtwo_after_calc.last_review
+    prev_q = smtwo_after_calc.quality
+    prev_ez = smtwo_after_calc.prev.easiness
+    prev_inter = smtwo_after_calc.prev.interval
+    prev_rd = smtwo_after_calc.prev.review_date
+    modify(smtwo_after_calc, new_repetitions=repetitions)
+
+    assert smtwo_after_calc.quality == prev_q
+    assert smtwo_after_calc.prev.easiness == prev_ez
+    assert smtwo_after_calc.prev.interval == prev_inter
+    assert smtwo_after_calc.prev.repetitions == repetitions
+    assert smtwo_after_calc.prev.review_date == prev_rd
 
 
-@pytest.mark.parametrize("last_review", (date(2020, 12, 20),))
-def test_modify_last_review(smtwo_after_calc, last_review):
-    new_smtwo = modify(smtwo_after_calc, new_last_review=last_review)
-    assert new_smtwo.quality == smtwo_after_calc.quality
-    assert new_smtwo.prev.easiness == smtwo_after_calc.prev.easiness
-    assert new_smtwo.prev.interval == smtwo_after_calc.prev.interval
-    assert new_smtwo.prev.repetitions == smtwo_after_calc.prev.repetitions
-    assert new_smtwo.last_review == last_review
+@pytest.mark.parametrize("review_date", (date(2020, 12, 20),))
+def test_modify_last_review(smtwo_after_calc, review_date):
+    prev_q = smtwo_after_calc.quality
+    prev_ez = smtwo_after_calc.prev.easiness
+    prev_inter = smtwo_after_calc.prev.interval
+    prev_rep = smtwo_after_calc.prev.repetitions
+    modify(smtwo_after_calc, new_review_date=review_date)
+
+    assert smtwo_after_calc.quality == prev_q
+    assert smtwo_after_calc.prev.easiness == prev_ez
+    assert smtwo_after_calc.prev.interval == prev_inter
+    assert smtwo_after_calc.prev.repetitions == prev_rep
+    assert smtwo_after_calc.prev.review_date == review_date
 
 
 def test_modify_no_inputs(smtwo_after_calc):
@@ -93,13 +119,54 @@ def test_modify_no_inputs(smtwo_after_calc):
 
 
 # perhaps I don't want to let user pass dates as string
+
 def test_json(smtwo_after_calc):
     json_fmt = json.dumps({
         "quality": 3,
-        "easiness": 2.5,
+        "prev_easiness": 2.5,
+        "prev_interval": 1,
+        "prev_repetitions": 1,
+        "prev_review_date": str(date.today()),
+        "easiness": 2.36,
         "interval": 1,
-        "repetitions": 1,
-        "last_review": str(date.today()),
-        "next_review": str(date.today() + timedelta(days=1))
+        "repetitions": 2,
+        "review_date": str(date.today() + timedelta(days=1))
     })
     assert as_json(smtwo_after_calc) == json_fmt
+
+
+def test_json_prev(smtwo_after_calc):
+    json_fmt = json.dumps({
+        "quality": 3,
+        "prev_easiness": 2.5,
+        "prev_interval": 1,
+        "prev_repetitions": 1,
+        "prev_review_date": str(date.today())
+    })
+    assert as_json(smtwo_after_calc, prev=True) == json_fmt
+
+
+def test_json_cur(smtwo_after_calc):
+    json_fmt = json.dumps({
+        "quality": 3,
+        "easiness": 2.36,
+        "interval": 1,
+        "repetitions": 2,
+        "review_date": str(date.today() + timedelta(days=1))
+    })
+    assert as_json(smtwo_after_calc, curr=True) == json_fmt
+
+
+def test_dict(smtwo_after_calc):
+    dict_fmt = {
+        "quality": 3,
+        "prev_easiness": 2.5,
+        "prev_interval": 1,
+        "prev_repetitions": 1,
+        "prev_review_date": date.today(),
+        "easiness": 2.36,
+        "interval": 1,
+        "repetitions": 2,
+        "review_date": date.today() + timedelta(days=1)
+    }
+    assert as_dict(smtwo_after_calc) == dict_fmt

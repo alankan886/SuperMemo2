@@ -14,7 +14,7 @@ def test_SMTwo_instance(empty_smtwo):
 
 
 @pytest.mark.parametrize(
-    "quality, easiness, interval, repetitions, expected_easiness, expected_interval, expected_repetitions, next_review",
+    "quality, easiness, interval, repetitions, expected_easiness, expected_interval, expected_repetitions, expected_review_date",
     [
         (0, 2.5, 6, 3, 2.5, 1, 1, date.today() + timedelta(days=1)),
         (1, 2.5, 1, 1, 2.5, 1, 1, date.today() + timedelta(days=1)),
@@ -31,7 +31,7 @@ def test_SMTwo_instance(empty_smtwo):
         (5, 3.1, 6, 3, 3.2, 19, 4, date.today() + timedelta(days=19)),
     ]
 )
-def test_SMTwo_calc(empty_smtwo, quality, easiness, interval, repetitions, expected_easiness, expected_interval, expected_repetitions, next_review):
+def test_SMTwo_calc(empty_smtwo, quality, easiness, interval, repetitions, expected_easiness, expected_interval, expected_repetitions, expected_review_date):
     empty_smtwo.calc(quality, easiness, interval, repetitions, date.today())
     assert empty_smtwo.quality == quality
     assert empty_smtwo.easiness == expected_easiness
@@ -40,8 +40,8 @@ def test_SMTwo_calc(empty_smtwo, quality, easiness, interval, repetitions, expec
     assert empty_smtwo.prev.easiness == easiness
     assert empty_smtwo.prev.interval == interval
     assert empty_smtwo.prev.repetitions == repetitions
-    assert empty_smtwo.last_review == date.today()
-    assert empty_smtwo.next_review == next_review
+    assert empty_smtwo.prev.review_date == date.today()
+    assert empty_smtwo.review_date == expected_review_date
 
 
 @pytest.mark.parametrize("quality", ["abc", -1, 6, 3.3])
@@ -119,14 +119,14 @@ def test_SMTwo_calc_invalid_repetitions(empty_smtwo, repetitions):
 
 
 # Down to line we can allow user to pass a string, and we can convert it to a date
-@pytest.mark.parametrize("last_review", ["abc", 123, 123.0, -123, "2020/12/20", "2020-12-20", "12/20/2020", "12-20-2020", "20-12-2020", "20/12/2020"])
-def test_SMTwo_calc_invalid_last_review(empty_smtwo, last_review):
+@pytest.mark.parametrize("review_date", ["abc", 123, 123.0, -123, "2020/12/20", "2020-12-20", "12/20/2020", "12-20-2020", "20-12-2020", "20/12/2020"])
+def test_SMTwo_calc_invalid_last_review(empty_smtwo, review_date):
     with pytest.raises(TypeError) as excinfo:
-        empty_smtwo.calc(3, 2.5, 1, 1, last_review)
+        empty_smtwo.calc(3, 2.5, 1, 1, review_date)
 
-    if isinstance(last_review, str):
-        message = f"'_SMTwo__last_review' must be <class 'datetime.date'> (got '{last_review}' that is a {type(last_review)})."
+    if isinstance(review_date, str):
+        message = f"'_Prev__review_date' must be <class 'datetime.date'> (got '{review_date}' that is a {type(review_date)})."
         assert excinfo.value.args[0] == message
     else:
-        message = f"'_SMTwo__last_review' must be <class 'datetime.date'> (got {last_review} that is a {type(last_review)})."
+        message = f"'_Prev__review_date' must be <class 'datetime.date'> (got {review_date} that is a {type(review_date)})."
         assert excinfo.value.args[0] == message
