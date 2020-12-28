@@ -3,7 +3,7 @@ from datetime import date
 from .model import SMTwo
 
 
-def first_visit(quality, last_reivew=date.today()):
+def first_review(quality, last_reivew=date.today()):
     smtwo = SMTwo()
     smtwo.calc(quality, 2.5, 1, 1, last_reivew)
     return smtwo

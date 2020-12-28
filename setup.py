@@ -8,19 +8,22 @@ classifiers = [
     'Programming Language :: Python :: 3',
 ]
 
+with open("README.md", "r", encoding="utf-8") as fh:
+    long_description = fh.read()
+
 setup(
-  name='supermemo2',
-  version='1.0.0',
-  description='Implements the SuperMemo-2/SM-2 algorithm for spaced repetition learning.',
-  long_description=open('README.txt').read() + '\n\n' + open('CHANGELOG.txt').read(),
-  long_description_content_type='text/markdown',
-  url='https://github.com/alankan2004/SuperMemo2',  
-  author='Alan Kan',
-  author_email='',
-  license='MIT', 
-  classifiers=classifiers,
-  keywords='spaced-repetition SuperMemo-2 SM-2 SuperMemo',
-  packages=find_packages(exclude=('tests', 'test_*', 'old_dist', 'venv')),
-  include_package_data=True,
-  install_requires=[''] 
+    name='supermemo2',
+    version='1.0.0',
+    description='Implements the SuperMemo-2/SM-2 algorithm for spaced repetition learning.',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
+    url='https://github.com/alankan886/SuperMemo2',
+    author='Alan Kan',
+    author_email='',
+    license='MIT',
+    classifiers=classifiers,
+    keywords='spaced-repetition SuperMemo-2 SM-2 SuperMemo',
+    packages=find_packages(),
+    include_package_data=True,
+    install_requires=['']
 )

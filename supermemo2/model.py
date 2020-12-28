@@ -3,14 +3,12 @@ from datetime import date, timedelta
 
 import attr
 
+from .exceptions import CalcNotCalledYet
+from .util import add_from_dict
 
-def add_from_dict(dict, result):
-    for key, value in dict.items():
-        result[key] = value
 
 @attr.s
 class SMTwo:
-    # the default none might have conflict with the validator on type later
     __quality = attr.ib(
         init=False,
         validator=[
@@ -22,10 +20,6 @@ class SMTwo:
     __easiness = attr.ib(init=False)
     __interval = attr.ib(init=False)
     __repetitions = attr.ib(init=False)
-    # __last_review = attr.ib(
-    #     init=False,
-    #     validator=attr.validators.instance_of(date),
-    #     on_setattr=attr.setters.validate)
     __review_date = attr.ib(init=False)
     __prev = attr.ib(init=False)
 
@@ -55,7 +49,6 @@ class SMTwo:
 
     @attr.s
     class Prev:
-        # need validation checks
         __easiness = attr.ib(validator=attr.validators.instance_of(float))
         __interval = attr.ib(validator=attr.validators.instance_of(int))
         __repetitions = attr.ib(validator=attr.validators.instance_of(int))
@@ -117,23 +110,24 @@ class SMTwo:
                 self.__easiness = 1.3
 
         self.__review_date = review_date + timedelta(days=self.__interval)
-        # make sure if quality is less than 4, set next_review date to today
 
     def json(self, prev=None, curr=None):
-        # add prev and both params
-        attrs = {"quality": self.__quality}
-        prev_attrs = {
-            "prev_easiness": self.__prev.easiness,
-            "prev_interval": self.__prev.interval,
-            "prev_repetitions": self.__prev.repetitions,
-            "prev_review_date": str(self.__prev.review_date)
-        }
-        cur_attrs = {
-            "easiness": self.__easiness,
-            "interval": self.__interval,
-            "repetitions": self.__repetitions,
-            "review_date": str(self.__review_date)
-        }
+        try:
+            attrs = {"quality": self.__quality}
+            prev_attrs = {
+                "prev_easiness": self.__prev.easiness,
+                "prev_interval": self.__prev.interval,
+                "prev_repetitions": self.__prev.repetitions,
+                "prev_review_date": str(self.__prev.review_date)
+            }
+            cur_attrs = {
+                "easiness": self.__easiness,
+                "interval": self.__interval,
+                "repetitions": self.__repetitions,
+                "review_date": str(self.__review_date)
+            }
+        except AttributeError:
+            raise CalcNotCalledYet
 
         if prev:
             add_from_dict(prev_attrs, attrs)
@@ -146,19 +140,22 @@ class SMTwo:
         return json.dumps(attrs)
 
     def dict(self, prev=None, curr=None):
-        attrs = {"quality": self.__quality}
-        prev_attrs = {
-            "prev_easiness": self.__prev.easiness,
-            "prev_interval": self.__prev.interval,
-            "prev_repetitions": self.__prev.repetitions,
-            "prev_review_date": self.__prev.review_date
-        }
-        cur_attrs = {
-            "easiness": self.__easiness,
-            "interval": self.__interval,
-            "repetitions": self.__repetitions,
-            "review_date": self.__review_date
-        }
+        try:
+            attrs = {"quality": self.__quality}
+            prev_attrs = {
+                "prev_easiness": self.__prev.easiness,
+                "prev_interval": self.__prev.interval,
+                "prev_repetitions": self.__prev.repetitions,
+                "prev_review_date": self.__prev.review_date
+            }
+            cur_attrs = {
+                "easiness": self.__easiness,
+                "interval": self.__interval,
+                "repetitions": self.__repetitions,
+                "review_date": self.__review_date
+            }
+        except AttributeError:
+            raise CalcNotCalledYet
 
         if prev:
             add_from_dict(prev_attrs, attrs)

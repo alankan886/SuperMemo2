@@ -10,9 +10,6 @@ def test_SMTwo_instance(empty_smtwo):
         assert method in dir(empty_smtwo)
 
 
-# might need to think more on non first/second visit test cases
-
-
 @pytest.mark.parametrize(
     "quality, easiness, interval, repetitions, expected_easiness, expected_interval, expected_repetitions, expected_review_date",
     [
