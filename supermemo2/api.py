@@ -9,34 +9,33 @@ def first_review(quality, last_reivew=date.today()):
     return smtwo
 
 
-def modify(instance, new_quality=None, new_easiness=None, new_interval=None, new_repetitions=None, new_review_date=None):
-    if not(new_quality is not None or new_easiness or new_interval or new_repetitions or new_review_date):
+def modify(instance, quality=None, easiness=None, interval=None, repetitions=None, review_date=None):
+    # specifically checking quality is None or not,
+    # because quality can equal to 0, and that can get pick up instead.
+    if not(quality is not None or easiness or interval or repetitions or review_date):
         message = "a new value is not provided for modification"
         raise ValueError(message)
 
-    q, ez, inter, rep, rd = instance.quality, instance.prev.easiness, instance.prev.interval, instance.prev.repetitions, instance.prev.review_date
-    if new_quality is not None:
-        q = new_quality
+    q = instance.quality
+    ez = instance.prev.easiness
+    inter = instance.prev.interval
+    rep = instance.prev.repetitions
+    rd = instance.prev.review_date
 
-    if new_easiness:
-        ez = new_easiness
+    if quality is not None:
+        q = quality
 
-    if new_interval:
-        inter = new_interval
+    if easiness:
+        ez = easiness
 
-    if new_repetitions:
-        rep = new_repetitions
+    if interval:
+        inter = interval
 
-    if new_review_date is not None:
-        rd = new_review_date
+    if repetitions:
+        rep = repetitions
+
+    if review_date is not None:
+        rd = review_date
 
     instance.calc(q, ez, inter, rep, rd)
     return instance
-
-
-def as_json(instance, **kwargs):
-    return instance.json(**kwargs)
-
-
-def as_dict(instance, **kwargs):
-    return instance.dict(**kwargs)

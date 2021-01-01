@@ -1,3 +1,4 @@
+import json
 from datetime import date, timedelta
 
 import pytest
@@ -127,3 +128,91 @@ def test_SMTwo_calc_invalid_last_review(empty_smtwo, review_date):
     else:
         message = f"'_Prev__review_date' must be <class 'datetime.date'> (got {review_date} that is a {type(review_date)})."
         assert excinfo.value.args[0] == message
+
+
+def test_SMTwo_json(smtwo_after_calc):
+    json_fmt = json.dumps({
+        "quality": 3,
+        "prev_easiness": 2.5,
+        "prev_interval": 1,
+        "prev_repetitions": 1,
+        "prev_review_date": str(date.today()),
+        "easiness": 2.36,
+        "interval": 1,
+        "repetitions": 2,
+        "review_date": str(date.today() + timedelta(days=1))
+    })
+    assert smtwo_after_calc.json() == json_fmt
+
+
+def test_SMTwo_json_prev(smtwo_after_calc):
+    json_fmt = json.dumps({
+        "quality": 3,
+        "prev_easiness": 2.5,
+        "prev_interval": 1,
+        "prev_repetitions": 1,
+        "prev_review_date": str(date.today())
+    })
+    assert smtwo_after_calc.json(prev=True) == json_fmt
+
+
+def test_SMTwo_json_curr(smtwo_after_calc):
+    json_fmt = json.dumps({
+        "quality": 3,
+        "easiness": 2.36,
+        "interval": 1,
+        "repetitions": 2,
+        "review_date": str(date.today() + timedelta(days=1))
+    })
+    assert smtwo_after_calc.json(curr=True) == json_fmt
+
+
+def test_SMTwo_json_exception(empty_smtwo):
+    with pytest.raises(Exception) as excinfo:
+        empty_smtwo.json()
+
+    assert excinfo.value.args[0] == "SMTwo.calc method is required to be called first"
+
+
+def test_SMTwo_dict(smtwo_after_calc):
+    dict_fmt = {
+        "quality": 3,
+        "prev_easiness": 2.5,
+        "prev_interval": 1,
+        "prev_repetitions": 1,
+        "prev_review_date": date.today(),
+        "easiness": 2.36,
+        "interval": 1,
+        "repetitions": 2,
+        "review_date": date.today() + timedelta(days=1)
+    }
+    assert smtwo_after_calc.dict() == dict_fmt
+
+
+def test_SMTwo_dict_prev(smtwo_after_calc):
+    dict_fmt = {
+        "quality": 3,
+        "prev_easiness": 2.5,
+        "prev_interval": 1,
+        "prev_repetitions": 1,
+        "prev_review_date": date.today()
+    }
+    assert smtwo_after_calc.dict(prev=True) == dict_fmt
+
+
+def test_SMTwo_dict_curr(smtwo_after_calc):
+    dict_fmt = {
+        "quality": 3,
+        "easiness": 2.36,
+        "interval": 1,
+        "repetitions": 2,
+        "review_date": date.today() + timedelta(days=1)
+    }
+    assert smtwo_after_calc.dict(curr=True) == dict_fmt
+
+
+def test_SMTwo_dict_exception(empty_smtwo):
+    with pytest.raises(Exception) as excinfo:
+        empty_smtwo.dict()
+
+    assert excinfo.value.args[0] == "SMTwo.calc method is required to be called first"
