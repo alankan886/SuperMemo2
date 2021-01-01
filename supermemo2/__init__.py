@@ -1,1 +1,1 @@
-from .sm_two import *
+from .api import first_review, modify

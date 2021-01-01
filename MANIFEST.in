@@ -1,7 +1,0 @@
-global-include *.txt *.py
-global-exclude venv tests __pycache__ supermemo2.egg-info
-
-prune tests*
-prune venv
-prune supermemo2.egg-info
-prune __pycache__
