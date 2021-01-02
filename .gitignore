@@ -17,3 +17,6 @@ README.txt
 
 # pytest-cov
 htmlcov
+
+# Github workflows
+!.github
