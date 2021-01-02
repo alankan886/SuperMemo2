@@ -2,10 +2,10 @@ name: Codecov workflow
 on: [push]
 jobs:
   run:
-    runs-on: macos-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [macos-latest]
         python-version: [3.7]
     steps:
       - name: Setup Python
@@ -16,8 +16,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pytest pytest-cov
-          pwd
-          echo "cat" ls
+          ls
           pytest
       - name: "Upload coverage to Codecov"
         uses: codecov/codecov-action@v1
