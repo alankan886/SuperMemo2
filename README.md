@@ -1,8 +1,9 @@
 # SuperMemo2
-![Python](https://img.shields.io/badge/Python-3.6+-blue.svg?logo=python&longCache=true&logoColor=white&colorB=5e81ac&style=flat-square&colorA=4c566a)
-![Version](https://img.shields.io/badge/Version-1.0.0-light--blue.svg?style=flat-square&colorA=4c566a&colorB=90A2BC)
-[![Download](https://img.shields.io/badge/Downloads-2.3k+-light--blue.svg?style=flat-square&colorA=4c566a&colorB=90A2BC)](https://pepy.tech/project/SuperMemo2)
-[![Coverage](https://img.shields.io/codecov/c/github/alankan886/SuperMemo2?style=flat-square&colorA=4c566a&colorB=90BCA8)](https://codecov.io/gh/alankan886/SuperMemo2)
+![Python](https://img.shields.io/badge/python-3.6+-blue.svg?logo=python&longCache=true&logoColor=white&colorB=5e81ac&style=flat-square&colorA=4c566a)
+[![Version](https://img.shields.io/pypi/v/supermemo2?logo=pypi&logoColor=white&style=flat-square&colorA=4c566a&colorB=90A2BC)](https://pypi.org/project/supermemo2/)
+[![Build](https://img.shields.io/github/workflow/status/alankan886/SuperMemo2/CI?logo=github-actions&logoColor=white&style=flat-square&colorA=4c566a&colorB=90BCA8)](https://github.com/alankan886/SuperMemo2/actions?query=workflow%3ACI)
+[![Coverage](https://img.shields.io/codecov/c/github/alankan886/SuperMemo2?logo=codecov&logoColor=white&style=flat-square&colorA=4c566a&colorB=90BCA8)](https://codecov.io/gh/alankan886/SuperMemo2)
+[![Download](https://img.shields.io/badge/downloads-2k-light--blue.svg?style=flat-square&colorA=4c566a&colorB=90A2BC)](https://pepy.tech/project/SuperMemo2)
 
 A package that implemented the spaced repetition algorithm SuperMemo-2/SM-2 for you to quickly calculate your next review date for whatever you are learning.
 
@@ -289,7 +290,7 @@ Check coverage on [Codecov](https://codecov.io/gh/alankan886/SuperMemo2).
 
 1.0.1 (2021-01-02): Fix tests, update README and add Github actions, Update not required
 - Add missing assertions to test_api.py.
-- Update README coverage linking it to Codecov, and fix format.
+- Update README badges and fix format.
 - Add Github actions to run tests against Python versions 3.6 to 3.9 in different OS, and upload coverage to Codecov.
 
 1.0.0 (2021-01-01): Complete rebuild, Update recommended
