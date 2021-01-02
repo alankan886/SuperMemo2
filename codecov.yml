@@ -1,4 +1,4 @@
-name: Example workflow for Codecov
+name: Codecov workflow
 on: [push]
 jobs:
   run:
@@ -23,3 +23,4 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage.xml
           fail_ci_if_error: true
+        run: bash <(curl -s https://codecov.io/bash)
