@@ -1,8 +1,8 @@
 # SuperMemo2
-![Python](https://img.shields.io/badge/Python-3.7+-blue.svg?logo=python&longCache=true&logoColor=white&colorB=5e81ac&style=flat-square&colorA=4c566a)
+![Python](https://img.shields.io/badge/Python-3.6+-blue.svg?logo=python&longCache=true&logoColor=white&colorB=5e81ac&style=flat-square&colorA=4c566a)
 ![Version](https://img.shields.io/badge/Version-1.0.0-light--blue.svg?style=flat-square&colorA=4c566a&colorB=90A2BC)
 [![Download](https://img.shields.io/badge/Downloads-2.3k+-light--blue.svg?style=flat-square&colorA=4c566a&colorB=90A2BC)](https://pepy.tech/project/SuperMemo2)
-[![Coverage](https://img.shields.io/codecov/c/github/alankan886/SuperMemo2%25-light--green.svg?style=flat-square&colorA=4c566a&colorB=90BCA8)](https://codecov.io/gh/alankan886/SuperMemo2)
+[![Coverage](https://img.shields.io/codecov/c/github/alankan886/SuperMemo2?style=flat-square&colorA=4c566a&colorB=90BCA8)](https://codecov.io/gh/alankan886/SuperMemo2)
 
 A package that implemented the spaced repetition algorithm SuperMemo-2/SM-2 for you to quickly calculate your next review date for whatever you are learning.
 
@@ -53,7 +53,7 @@ Install dependencies to run the code:
 pip3 install -r requirements.txt
 ```
 
-supermemo2 supports Python 3.7+.
+supermemo2 supports Python 3.6+.
 
 <a name="example">
 
