@@ -11,11 +11,12 @@ from supermemo2.exceptions import CalcNotCalledYet
 @pytest.mark.parametrize("quality", (0, 1, 2, 3, 4, 5))
 def test_first_review_default_review_date(quality):
     smtwo = first_review(quality)
-    smtwo.quality == quality
-    smtwo.prev.easiness == 2.5
-    smtwo.prev.interval == 1
-    smtwo.prev.repetitions == 1
-    smtwo.prev.review_date == date.today()
+    assert smtwo.quality == quality
+    assert smtwo.prev.easiness == 2.5
+    assert smtwo.prev.interval == 1
+    assert smtwo.prev.repetitions == 1
+    assert smtwo.prev.review_date == date.today()
+    assert smtwo.review_date == date.today() + timedelta(days=1)
 
 
 @pytest.mark.parametrize(
@@ -31,11 +32,12 @@ def test_first_review_default_review_date(quality):
 )
 def test_first_review(quality, review_date):
     smtwo = first_review(quality, review_date)
-    smtwo.quality == quality
-    smtwo.prev.easiness == 2.5
-    smtwo.prev.interval == 1
-    smtwo.prev.repetitions == 1
-    smtwo.review_date == review_date
+    assert smtwo.quality == quality
+    assert smtwo.prev.easiness == 2.5
+    assert smtwo.prev.interval == 1
+    assert smtwo.prev.repetitions == 1
+    assert smtwo.prev.review_date == review_date
+    assert smtwo.review_date == review_date + timedelta(days=1)
 
 
 @pytest.mark.parametrize("quality", (0, 1, 2, 3, 4, 5))

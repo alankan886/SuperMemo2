@@ -23,11 +23,13 @@ A package that implemented the spaced repetition algorithm SuperMemo-2/SM-2 for 
 - [Changelog](#changelog)
 - [Credits](#credits)
 
-<a name="motivation"> </br>
+<a name="motivation">
+
 ## Motivation
 The goal was to have an efficient way to calculate the next review date for studying/learning. Removes the burden of remembering the algorithm, equations, and math from the users.
 
-<a name="install-versions"> </br>
+<a name="install-versions">
+
 ## Installation and Supported Versions
 
 ### Package Install
@@ -37,7 +39,7 @@ Install and upate the package using [pip](https://pip.pypa.io/en/stable/quicksta
 pip3 install -U supermemo2
 ```
 
-<a name="download"> </br>
+<a name="download">
 
 ### To Play Around with the Code
 Download the code:
@@ -53,7 +55,8 @@ pip3 install -r requirements.txt
 
 supermemo2 supports Python 3.7+.
 
-<a name="example"> </br>
+<a name="example">
+
 ## A Simple Example
 
 We start with a recall quality of 3, and the review date defaults to today (let's pretend it's 2021-01-01). 
@@ -74,19 +77,22 @@ Grab the current values from the first review, and update the recall quality. Th
 2021-01-08
 ```
 
-<a name="features"> </br>
+<a name="features">
+
 ## Features
 :mega: Calculates the next review date of the task following the SuperMemo-2/SM-2 algorithm.
 <br/> :mega: The first_review method to create a new instance at ease without having to know the initial values.
 <br/> :mega: The modify method to modify existing instance values that recalculates the new values.
 <br/> :mega: The json and dict methods to export the instance values and to help calculate the next review date.
 
-<a name="potential"> </br>
+<a name="potential">
+
 ### Potential Features
 - Allow users to pass the review date as a string in many formats.
 - Provide a modified option to configure the intervals for repetitions 1 and 2. And an option to reduce quality responses to 4, since 0 to 2 doesn't do much.
 
-<a name="sm2"> </br>
+<a name="sm2">
+
 ## What is SuperMemo-2?
 :movie_camera: If you are curious of what spaced repetition is, check this [short video](https://youtu.be/-uMMRjrzPmE?t=94) out.
 
@@ -110,7 +116,8 @@ The values are the:
 
 :pencil2: quality from 0 to 2 doesn't have much impact; it doesn't affect the easiness. If you are building a program on top of this package, you may group them as one response. So instead of 6 responses, you have 4 (5, 4, 3, and incorrect response).
 
-<a name="api"> </br>
+<a name="api">
+
 ## API Reference
 
 <a name="main-interface">
@@ -169,13 +176,14 @@ supermemo2.**modify**(instance, quality=None, easiness=None, interval=None, repe
 <a name="excep">
 
 ### Exceptions
-exception supermemo2.exceptions.CalcNotCalledYet
+exception supermemo2.exceptions.**CalcNotCalledYet**
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Other methods are called before the values are calculated.
 
 <a name="classes">
 
 ### Lower-Level Classes
-class supermemo2.SMTwo()
+class supermemo2.**SMTwo()**
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Generates all the instances and contains the tools.
 
@@ -248,7 +256,7 @@ class supermemo2.SMTwo()
 '{"quality": 3, "prev_easiness": 2.5, "prev_interval": 1, "prev_repetitions": 1, "prev_review_date": datetime.date(2021, 1, 1),"easiness": 2.36, "interval": 2, "repetitions": 1, "review_date": datetime.date(2021, 1, 2)}'
 ```
 
-class supermemo2.SMTwo.Prev(easiness, interval, repetitions, review_date)
+class supermemo2.SMTwo.**Prev**(easiness, interval, repetitions, review_date)
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stores the previous values.
 
@@ -293,25 +301,25 @@ TOTAL                        129      0   100%
 
 ## Changelog
 
-1.0.0 2020-12-31 Complete rebuild, Update recommended
-- Build new SMTwo class using the attrs package.
-- Provie API methods to quickly access the SMTwo class.
+1.0.0 (2021-01-01): Complete rebuild, Update recommended
+- Build a new SMTwo class using the attrs package.
+- Provide API methods to quickly access the SMTwo class.
 - Develop 100% coverage integration and unit tests in a TDD manner.
 - Write new documentation.
 
-0.1.0 2020-07-14 Add tests, Update not required
+0.1.0 (2020-07-14): Add tests, Update not required
 - Add passing unit tests with a coverage of 100%.
 
-0.0.4 2020-07-10 Minor bug fix, Update recommended
+0.0.4 (2020-07-10): Minor bug fix, Update recommended
 - Fix interval calculation error when q < 3.
 
-0.0.3 2020-07-06 Documentation Update, Update not required
+0.0.3 (2020-07-06): Documentation Update, Update not required
 - Add new section about SuperMemo-2 in documentation, and fix some formats in README.
 
-0.0.2 2020-07-05 Refactor feature, Update recommended
+0.0.2 (2020-07-05): Refactor feature, Update recommended
 - Refactor the supermemo2 algorithm code into a simpler structure, and remove unnecessary methods in the class.
 
-0.0.1 2020-07-02 Feature release
+0.0.1 (2020-07-02): Feature release
 - Initial Release
 
 <a name="credits">
