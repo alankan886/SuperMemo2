@@ -274,7 +274,7 @@ Assuming you [dowloaded the code and installed requirements](#download).
 
 ### Run the tests
 ```bash
-pytest tests
+pytest tests/
 ```
 
 ### Check test coverages
@@ -286,6 +286,11 @@ Check coverage on [Codecov](https://codecov.io/gh/alankan886/SuperMemo2).
 <a name="changelog">
 
 ## Changelog
+
+1.0.1 (2021-01-02): Fix tests, update README and add Github actions, Update not required
+- Add missing assertions to test_api.py.
+- Update README coverage linking it to Codecov, and fix format.
+- Add Github actions to run tests against Python versions 3.6 to 3.9 in different OS, and upload coverage to Codecov.
 
 1.0.0 (2021-01-01): Complete rebuild, Update recommended
 - Build a new SMTwo class using the attrs package.
