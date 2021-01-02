@@ -3,20 +3,20 @@ import pathlib
 from setuptools import setup, find_packages, Command
 
 classifiers = [
-    'Development Status :: 3 - Alpha',
+    'Development Status :: 5 - Production/Stable',
     'Intended Audience :: Education',
     'Operating System :: OS Independent',
     'License :: OSI Approved :: MIT License',
     'Programming Language :: Python',
     'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.6',
     'Programming Language :: Python :: 3.7',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
 ]
 
-# The directory containing this file
-HERE = pathlib.Path(__file__).parent
-
-# The text of the README file
-README = (HERE / "README.md").read_text()
+with open('README.md', encoding='utf-8') as f:
+    readme_content = f.read().strip()
 
 class CleanCommand(Command):
     """Custom clean command to tidy up the project root."""
@@ -30,9 +30,9 @@ class CleanCommand(Command):
 
 setup(
     name='supermemo2',
-    version='1.0.0',
+    version='1.0.1',
     description='Implemented the SuperMemo-2/SM-2 algorithm for spaced repetition learning.',
-    long_description=README,
+    long_description=readme_content,
     long_description_content_type='text/markdown',
     url='https://github.com/alankan886/SuperMemo2',
     author='Alan Kan',

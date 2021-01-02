@@ -7,7 +7,7 @@
 
 A package that implemented the spaced repetition algorithm SuperMemo-2/SM-2 for you to quickly calculate your next review date for whatever you are learning.
 
-:package: [PyPI page](https://pypi.org/project/supermemo2/)
+📦 &nbsp;[PyPI page](https://pypi.org/project/supermemo2/)
 
 ## Table of Contents
 - [Motivation](#motivation)
@@ -81,10 +81,10 @@ Grab the current values from the first review, and update the recall quality. Th
 <a name="features">
 
 ## Features
-:mega: Calculates the next review date of the task following the SuperMemo-2/SM-2 algorithm.
-<br/> :mega: The first_review method to create a new instance at ease without having to know the initial values.
-<br/> :mega: The modify method to modify existing instance values that recalculates the new values.
-<br/> :mega: The json and dict methods to export the instance values and to help calculate the next review date.
+📣 &nbsp;Calculates the next review date of the task following the SuperMemo-2/SM-2 algorithm.
+<br/> 📣 &nbsp;The first_review method to create a new instance at ease without having to know the initial values.
+<br/> 📣 &nbsp;The modify method to modify existing instance values that recalculates the new values.
+<br/> 📣 &nbsp;The json and dict methods to export the instance values and to help calculate the next review date.
 
 <a name="potential">
 
@@ -95,11 +95,11 @@ Grab the current values from the first review, and update the recall quality. Th
 <a name="sm2">
 
 ## What is SuperMemo-2?
-:movie_camera: If you are curious of what spaced repetition is, check this [short video](https://youtu.be/-uMMRjrzPmE?t=94) out.
+🎥 &nbsp;If you are curious of what spaced repetition is, check this [short video](https://youtu.be/-uMMRjrzPmE?t=94) out.
 
-:pushpin: A longer but interactive [article](https://ncase.me/remember/) on spaced repetition learning.
+📌 &nbsp;A longer but interactive [article](https://ncase.me/remember/) on spaced repetition learning.
 
-:paperclip: [The SuperMemo-2 Algorithm](https://www.supermemo.com/en/archives1990-2015/english/ol/sm2)
+📎 &nbsp;[The SuperMemo-2 Algorithm](https://www.supermemo.com/en/archives1990-2015/english/ol/sm2)
 
 ### What are the "values"?
 The values are the:
@@ -115,7 +115,9 @@ The values are the:
 - Interval: The gap/space between your next review.
 - Repetitions: The count of correct response (quality >= 3) you have in a row.
 
-:pencil2: quality from 0 to 2 doesn't have much impact; it doesn't affect the easiness. If you are building a program on top of this package, you may group them as one response. So instead of 6 responses, you have 4 (5, 4, 3, and incorrect response).
+✏️ &nbsp;quality from 0 to 2 doesn't have much impact; it doesn't affect the easiness. 
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you are building a program on top of this package, you may group them as one response. So instead of &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6 responses, you have 4 (5, 4, 3, and incorrect response).
 
 <a name="api">
 

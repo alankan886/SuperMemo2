@@ -1,0 +1,2 @@
+prune *.egg-info
+recursive-include tests *.py
