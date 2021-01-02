@@ -17,8 +17,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install pytest pytest-cov
           pwd
-          ls
-          pytest tests/
+          echo "cat" ls
+          pytest
       - name: "Upload coverage to Codecov"
         uses: codecov/codecov-action@v1
         with:
