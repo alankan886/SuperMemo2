@@ -117,7 +117,7 @@ The values are the:
 
 ✏️ &nbsp;quality from 0 to 2 doesn't have much impact; it doesn't affect the easiness. 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you are building a program on top of this package, you may group them as one response. So instead of &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6 responses, you have 4 (5, 4, 3, and incorrect response).
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you are building a program on top of this package, you may group them as one response. So instead of 6 responses, you have 4 (5, 4, 3, and incorrect response).
 
 <a name="api">
 
@@ -194,7 +194,7 @@ class supermemo2.**SMTwo()**
 
 **calc**(quality, easiness, interval, repetitions, review_date)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calculates the values. For the first review, the initial/previous values &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;would be 2.5 for easiness, 1 for interval and 1 for repetitions.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calculates the values. For the first review, the initial/previous values would be 2.5 for easiness, 1 for interval and 1 for repetitions.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
 - **quality** (Optional[int]) - the quality value received from the last calculation.
@@ -209,7 +209,7 @@ class supermemo2.**SMTwo()**
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Usage:
 ```python
->>> from supermemo2.models import SMTwo
+>>> from supermemo2 import SMTwo
 >>> from datetime import date
 >>> smtwo = SMTwo()
 >>> smtwo.calc(3, 2.5, 1, 1, date(2021, 1, 1))
