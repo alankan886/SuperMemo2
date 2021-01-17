@@ -14,9 +14,9 @@ def test_SMTwo_instance(empty_smtwo):
 @pytest.mark.parametrize(
     "quality, easiness, interval, repetitions, expected_easiness, expected_interval, expected_repetitions, expected_review_date",
     [
-        (0, 2.5, 6, 3, 2.5, 1, 1, date.today() + timedelta(days=1)),
-        (1, 2.5, 1, 1, 2.5, 1, 1, date.today() + timedelta(days=1)),
-        (2, 2.5, 1, 2, 2.5, 1, 1, date.today() + timedelta(days=1)),
+        (0, 2.5, 6, 3, 1.7, 1, 1, date.today() + timedelta(days=1)),
+        (1, 2.5, 1, 1, 1.96, 1, 1, date.today() + timedelta(days=1)),
+        (2, 2.5, 1, 2, 2.1799999999999997, 1, 1, date.today() + timedelta(days=1)),
         (3, 2.5, 1, 1, 2.36, 1, 2, date.today() + timedelta(days=1)),
         (4, 2.5, 1, 1, 2.5000000000000004, 1, 2, date.today() + timedelta(days=1)),
         (5, 2.5, 1, 1, 2.6, 1, 2, date.today() + timedelta(days=1)),
