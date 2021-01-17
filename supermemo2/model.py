@@ -93,7 +93,6 @@ class SMTwo:
         self.__prev = self.Prev(easiness, interval, repetitions, review_date)
 
         if quality < 3:
-            self.__easiness = easiness
             self.__interval = 1
             self.__repetitions = 1
         else:
@@ -105,9 +104,10 @@ class SMTwo:
                 self.__interval = round(interval * easiness)
 
             self.__repetitions = repetitions + 1
-            self.__easiness = easiness - 0.8 + 0.28 * quality - 0.02 * quality**2
-            if self.__easiness < 1.3:
-                self.__easiness = 1.3
+
+        self.__easiness = easiness - 0.8 + 0.28 * quality - 0.02 * quality**2
+        if self.__easiness < 1.3:
+            self.__easiness = 1.3
 
         self.__review_date = review_date + timedelta(days=self.__interval)
 
