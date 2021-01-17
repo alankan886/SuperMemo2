@@ -5,7 +5,9 @@
 [![Coverage](https://img.shields.io/codecov/c/github/alankan886/SuperMemo2?logo=codecov&logoColor=white&style=flat-square&colorA=4c566a&colorB=90BCA8)](https://codecov.io/gh/alankan886/SuperMemo2)
 [![Download](https://img.shields.io/badge/downloads-2k-light--blue.svg?style=flat-square&colorA=4c566a&colorB=90A2BC)](https://pepy.tech/project/SuperMemo2)
 
-A package that implemented the spaced repetition algorithm SuperMemo-2/SM-2 for you to quickly calculate your next review date for whatever you are learning.
+A package that implemented the spaced repetition algorithm SM-2 for you to quickly calculate your next review date for whatever you are learning.
+
+📌 &nbsp;**Note:** The algorithm SM-2 doesn't equal to the computer implementation SuperMemo2. In fact, the 3 earliest implementations (SuperMemo1, SuperMemo2 and SuperMemo3) all used algorithm SM-2. I didn't notice that when I first published the package on PyPI, and I can't change the package name.
 
 📦 &nbsp;[PyPI page](https://pypi.org/project/supermemo2/)
 
@@ -54,7 +56,7 @@ Install dependencies to run the code:
 pip3 install -r requirements.txt
 ```
 
-supermemo2 supports Python 3.6+.
+supermemo2 supports Python 3.6+ and requires attrs >= 20.1.0.
 
 <a name="example">
 
@@ -90,7 +92,6 @@ Grab the current values from the first review, and update the recall quality. Th
 
 ### Potential Features
 - Allow users to pass the review date as a string in many formats.
-- Provide a modified option to configure the intervals for repetitions 1 and 2. And an option to reduce quality responses to 4, since 0 to 2 doesn't do much.
 
 <a name="sm2">
 
@@ -115,10 +116,6 @@ The values are the:
 - Interval: The gap/space between your next review.
 - Repetitions: The count of correct response (quality >= 3) you have in a row.
 
-✏️ &nbsp;quality from 0 to 2 doesn't have much impact; it doesn't affect the easiness. 
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you are building a program on top of this package, you may group them as one response. So instead of 6 responses, you have 4 (5, 4, 3, and incorrect response).
-
 <a name="api">
 
 ## API Reference
@@ -128,8 +125,7 @@ The values are the:
 ### Main Interface
 supermemo2.**first_review**(quality, review_date=datetime.date.today())
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calcualtes next review date without having to know the initial values,
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and returns an SMTwo object with new values.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calcualtes next review date without having to know the initial values, and returns an SMTwo object with new values.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
 - **quality**(int) - the quality of the response/recall from a scale of 0 to 5.
