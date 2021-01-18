@@ -42,7 +42,7 @@ setup(
     keywords='spaced-repetition SuperMemo-2 SM-2 SuperMemo Python',
     packages=find_packages(),
     include_package_data=True,
-    install_requires=['attrs'],
+    install_requires=['attrs>=20.1.0'],
     cmdclass={
         'clean': CleanCommand,
     },
