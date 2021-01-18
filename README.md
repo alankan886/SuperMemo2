@@ -285,8 +285,10 @@ Check coverage on [Codecov](https://codecov.io/gh/alankan886/SuperMemo2).
 <a name="changelog">
 
 ## Changelog
-1.0.2 (2021-01-15): Minor bug fix
-- Add required attrs package version to setup.py 
+1.0.2 (2021-01-18): Major and Minor bug fix, Update recommended
+- Add required attrs package version to setup.py.
+- Allow users to access SMTwo model.
+- Fix E-Factor calculation when q < 3.
 
 1.0.1 (2021-01-02): Fix tests, update README and add Github actions, Update not required
 - Add missing assertions to test_api.py.
