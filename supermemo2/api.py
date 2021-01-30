@@ -3,9 +3,14 @@ from datetime import date
 from .model import SMTwo
 
 
-def first_review(quality, last_reivew=date.today()):
+def first_review(quality, last_review=None):
+    # Default arguments are evaluated only once - when the function is first parsed. We need it to reevaluate the date
+    # each time this function is called.
+    if last_review is None:
+        last_review = date.today()
+
     smtwo = SMTwo()
-    smtwo.calc(quality, 2.5, 1, 1, last_reivew)
+    smtwo.calc(quality, 2.5, 1, 1, last_review)
     return smtwo
 
 
