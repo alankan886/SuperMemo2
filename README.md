@@ -285,6 +285,9 @@ Check coverage on [Codecov](https://codecov.io/gh/alankan886/SuperMemo2).
 <a name="changelog">
 
 ## Changelog
+1.0.3 (2021-01-30): Minor bug fix, Update recommended
+- Re-evaluate the default date argument to first_review() on each call.
+
 1.0.2 (2021-01-18): Major and Minor bug fix, Update recommended
 - Add required attrs package version to setup.py.
 - Allow users to access SMTwo model.

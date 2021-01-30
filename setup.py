@@ -30,7 +30,7 @@ class CleanCommand(Command):
 
 setup(
     name='supermemo2',
-    version='1.0.2',
+    version='1.0.3',
     description='Implemented the SuperMemo-2/SM-2 algorithm for spaced repetition learning.',
     long_description=readme_content,
     long_description_content_type='text/markdown',
