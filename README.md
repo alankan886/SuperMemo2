@@ -1,5 +1,5 @@
 # SuperMemo2
-![Python](https://img.shields.io/badge/python-3.6+-blue.svg?logo=python&longCache=true&logoColor=white&colorB=5e81ac&style=flat-square&colorA=4c566a)
+![Python](https://img.shields.io/badge/python-3+-blue.svg?logo=python&longCache=true&logoColor=white&colorB=5e81ac&style=flat-square&colorA=4c566a)
 [![Version](https://img.shields.io/pypi/v/supermemo2?logo=pypi&logoColor=white&style=flat-square&colorA=4c566a&colorB=90A2BC)](https://pypi.org/project/supermemo2/)
 [![Build](https://img.shields.io/github/workflow/status/alankan886/SuperMemo2/CI?logo=github-actions&logoColor=white&style=flat-square&colorA=4c566a&colorB=90BCA8)](https://github.com/alankan886/SuperMemo2/actions?query=workflow%3ACI)
 [![Coverage](https://img.shields.io/codecov/c/github/alankan886/SuperMemo2?logo=codecov&logoColor=white&style=flat-square&colorA=4c566a&colorB=90BCA8)](https://codecov.io/gh/alankan886/SuperMemo2)
@@ -16,10 +16,8 @@ A package that implemented the spaced repetition algorithm SM-2 for you to quick
 - [Installing and Supported Versions](#install-versions)
 - [A Simple Example](#example)
 - [Features](#features)
-	- [Potential Features](#potential)
 - [What is SM-2?](#sm2)
-- [Code Reference](#api)
-
+- [Code Reference](#code)
 - [Testing](#testing)
 - [Changelog](#changelog)
 - [Credits](#credits)
@@ -54,19 +52,25 @@ Install dependencies to run the code:
 pip3 install -r requirements.txt
 ```
 
-supermemo2 supports Python 3.6+
+supermemo2 supports Python 3+
 
 <a name="example">
 
 ## A Simple Example
 
-We start with a recall quality of 3, and the review date defaults to today (let's pretend it's 2021-01-01). 
-
-Using the current values from the first review can help us calculate for the second review.
-
-Grab the current values from the first review, and update the recall quality. Then calculate the next review date.
-
 ```python
+from supermemo2 import first_review, review
+
+# first review
+# using quality=4 as an example, read below for what each value from 0 to 5 represents
+# review date would default to date.today() if not provided
+reviewed = first_review(4, "2021-3-14")
+# reviewed prints {'quality': 4, 'easiness': 2.5, 'interval': 1, 'repetitions': 1, 'review_date': datetime.date(2021, 3, 15)}
+
+# second review
+reviewed.update({"quality": 4)
+reviewed = review(**reviewed)
+# reviewed prints {'quality': 4, 'easiness': 2.5, 'interval': 6, 'repetitions': 2, 'review_date': datetime.date(2021, 3, 21)}
 
 ```
 
@@ -75,11 +79,6 @@ Grab the current values from the first review, and update the recall quality. Th
 ## Features
 📣 &nbsp;Calculates the review date of the task following the SM-2 algorithm.
 <br/> 📣 &nbsp;The first_review method to create a new instance at ease without having to know the initial values.
-
-<a name="potential">
-
-### Potential Features
-- Allow users to pass the review date as a string in many formats.
 
 <a name="sm2">
 
@@ -107,7 +106,76 @@ The values are the:
 <a name="code">
 
 ## Code Reference
+supermemo2.**first_review**(quality, review_date=None, date_fmt=None)
 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calcualtes the next review date for the first review without having to know the initial values, and returns a dictionary containing the new values.
+
+**Parameters:**
+- quality (int) - the recall quality of the review.
+- review_date (str or datetime.date) - optional parameter, the date of the review.
+- date_fmt (string) - optional parameter, the format of the review_date. Formats like `year_mon_day`, `mon_day_year` and `day_mon_year`.
+
+**Returns:** dictionary containing values like quality, easiness, interval, repetitions and review_date.
+
+**Return Type:** Dict
+
+**Usage:**
+```python
+from supermemo2 import first_review, mon_day_year
+# using default date date.today()
+first_review(3)
+
+# providing string date in Year-Month-Day format
+first_review(3, "2021-12-01")
+
+# providing string date in Month-Day-Year format
+first_review(3, "12-01-2021", mon_day_year)
+
+# providing date object date
+from datetime import date
+d = date(2021, 12, 1)
+first_review(3, d)
+```
+
+supermemo2.**review**(quality, easiness, interval, repetitions, review_date=None, date_fmt=None)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calcualtes the next review date based on previous values, and returns a dictionary containing the new values.
+
+**Parameters:**
+- quality (int) - the recall quality of the review.
+- easiness (float) - the easiness determines the interval.
+- interval (int) - the interval between the latest review date and the next review date.
+- repetitions (int) - the count of consecutive reviews with quality larger than 2.
+- review_date (str or datetime.date) - optional parameter, the date of the review.
+- date_fmt (string) - optional parameter, the format of the review_date. Formats like `year_mon_day`, `mon_day_year` and `day_mon_year`.
+
+**Returns:** dictionary containing values like quality, easiness, interval, repetitions and review_date.
+
+**Return Type:** Dict
+
+**Usage:**
+```python
+from supermemo2 import review, mon_day_year
+# using previous values from first_review call
+r = first_review(3)
+# update the review_date if the date of your review doesn't match the calculated review_date (i.e. not reviewing on time/missed the review date)
+r.update({"quality": 5})
+review(**r)
+
+# using default date date.today()
+review(3, 2.5, 1, 1)
+
+# providing string date in Year-Month-Day format
+review(3, 2.5, 1, 1, "2021-12-01")
+
+# providing string date in Month-Day-Year format
+review(3, 2.5, 1, 1, "12-01-2021", mon_day_year)
+
+# providing date object date
+from datetime import date
+d = date(2021, 12, 1)
+review(3, 2.5, 1, 1, d)
+```
 
 <a name="testing">
 
@@ -129,6 +197,9 @@ Check coverage on [Codecov](https://codecov.io/gh/alankan886/SuperMemo2).
 <a name="changelog">
 
 ## Changelog
+2.0.0 (2021-03-14): Major changes/rebuild, Update recommended
+- Rebuilt and simplfied the package.
+
 1.0.3 (2021-01-30): Minor bug fix, Update recommended
 - Re-evaluate the default date argument to first_review() on each call.
 

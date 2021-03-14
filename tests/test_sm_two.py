@@ -2,7 +2,7 @@ from datetime import date, timedelta
 
 import pytest
 
-from sm_two import first_review, review, year_mon_day, mon_day_year, day_mon_year
+from supermemo2 import first_review, review, year_mon_day, mon_day_year, day_mon_year
 
 
 @pytest.mark.parametrize(
@@ -62,7 +62,7 @@ def test_first_review_given_date(
 
 @pytest.mark.parametrize(
     "str_date, date_fmt",
-    [   
+    [
         ("2021-12-01", None),
         ("2021-12-01", year_mon_day),
         ("12-01-2021", mon_day_year),
@@ -80,7 +80,7 @@ def test_first_review_given_date_in_str(str_date, date_fmt):
 
 
 @pytest.mark.parametrize(
-    "quality, easiness, interval, repetitions, expected_easiness, expected_interval, expected_repetitions, expected_date",
+    "quality, easiness, interval, repetitions, expected_easiness, expected_interval, expected_repetitions, expected_review_date",
     [
         (0, 2.3, 12, 3, 1.5, 1, 0, date.today() + timedelta(days=1)),
         (1, 2.3, 12, 3, 1.7599999999999998, 1, 0, date.today() + timedelta(days=1)),
@@ -98,18 +98,18 @@ def test_review(
     expected_easiness,
     expected_interval,
     expected_repetitions,
-    expected_date,
+    expected_review_date,
 ):
     reviewed = review(quality, easiness, interval, repetitions)
     assert reviewed["quality"] == quality
     assert reviewed["easiness"] == expected_easiness
     assert reviewed["interval"] == expected_interval
     assert reviewed["repetitions"] == expected_repetitions
-    assert reviewed["review_date"] == expected_date
+    assert reviewed["review_date"] == expected_review_date
 
 
 @pytest.mark.parametrize(
-    "quality, easiness, interval, repetitions, review_date, expected_easiness, expected_interval, expected_repetitions, expected_date",
+    "quality, easiness, interval, repetitions, review_date, expected_easiness, expected_interval, expected_repetitions, expected_review_date",
     [
         (
             0,
@@ -170,7 +170,7 @@ def test_review(
         # test case for when easiness drops lower than 1.3
         (0, 1.3, 12, 3, date.today(), 1.3, 1, 0, date.today() + timedelta(days=1)),
         # test case for for repetitions equals to 2
-        (4, 2.5, 1, 1, date.today(), 2.5, 6, 2, date.today() + timedelta(days=6))
+        (4, 2.5, 1, 1, date.today(), 2.5, 6, 2, date.today() + timedelta(days=6)),
     ],
 )
 def test_review_given_date(
@@ -182,11 +182,11 @@ def test_review_given_date(
     expected_easiness,
     expected_interval,
     expected_repetitions,
-    expected_date,
+    expected_review_date,
 ):
     reviewed = review(quality, easiness, interval, repetitions, review_date)
     assert reviewed["quality"] == quality
     assert reviewed["easiness"] == expected_easiness
     assert reviewed["interval"] == expected_interval
     assert reviewed["repetitions"] == expected_repetitions
-    assert reviewed["review_date"] == expected_date
+    assert reviewed["review_date"] == expected_review_date

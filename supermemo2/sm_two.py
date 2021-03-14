@@ -2,9 +2,6 @@ from math import ceil
 from datetime import date, datetime, timedelta
 from typing import Optional, Union
 
-import attr
-
-__all__ = ["first_review", "SMTwo"]
 
 year_mon_day = "%Y-%m-%d"
 mon_day_year = "%m-%d-%Y"
@@ -18,7 +15,7 @@ def first_review(
 ):
     if not review_date:
         review_date = date.today()
-    
+
     if not date_fmt:
         date_fmt = year_mon_day
 
@@ -35,7 +32,7 @@ def review(
 ):
     if not review_date:
         review_date = date.today()
-    
+
     if not date_fmt:
         date_fmt = year_mon_day
 
