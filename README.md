@@ -78,7 +78,7 @@ reviewed = review(**reviewed)
 
 ## Features
 📣 &nbsp;Calculates the review date of the task following the SM-2 algorithm.
-<br/> 📣 &nbsp;The first_review method to create a new instance at ease without having to know the initial values.
+<br/> 📣 &nbsp;The first_review method to calculate the review date at ease without having to know the initial values.
 
 <a name="sm2">
 
