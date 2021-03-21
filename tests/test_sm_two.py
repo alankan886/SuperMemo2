@@ -2,7 +2,7 @@ from datetime import date, timedelta
 
 import pytest
 
-from supermemo2 import first_review, review, year_mon_day, mon_day_year, day_mon_year
+from supermemo2 import SMTwo, year_mon_day, mon_day_year, day_mon_year
 
 
 @pytest.mark.parametrize(
@@ -23,9 +23,9 @@ def test_first_review(
     expected_repetitions,
     expected_review_date,
 ):
-    reviewed = first_review(quality)
+    sm = SMTwo()
+    reviewed = sm.first_review(quality)
 
-    assert reviewed["quality"] == quality
     assert reviewed["easiness"] == expected_easiness
     assert reviewed["interval"] == expected_interval
     assert reviewed["repetitions"] == expected_repetitions
@@ -51,9 +51,9 @@ def test_first_review_given_date(
     expected_repetitions,
     expected_review_date,
 ):
-    reviewed = first_review(quality, review_date)
+    sm = SMTwo()
+    reviewed = sm.first_review(quality, review_date)
 
-    assert reviewed["quality"] == quality
     assert reviewed["easiness"] == expected_easiness
     assert reviewed["interval"] == expected_interval
     assert reviewed["repetitions"] == expected_repetitions
@@ -70,9 +70,9 @@ def test_first_review_given_date(
     ],
 )
 def test_first_review_given_date_in_str(str_date, date_fmt):
-    reviewed = first_review(3, str_date, date_fmt)
+    sm = SMTwo()
+    reviewed = sm.first_review(3, str_date, date_fmt)
 
-    assert reviewed["quality"] == 3
     assert reviewed["easiness"] == 2.36
     assert reviewed["interval"] == 1
     assert reviewed["repetitions"] == 1
@@ -100,8 +100,9 @@ def test_review(
     expected_repetitions,
     expected_review_date,
 ):
-    reviewed = review(quality, easiness, interval, repetitions)
-    assert reviewed["quality"] == quality
+    sm = SMTwo(easiness, interval, repetitions)
+    reviewed = sm.review(quality)
+
     assert reviewed["easiness"] == expected_easiness
     assert reviewed["interval"] == expected_interval
     assert reviewed["repetitions"] == expected_repetitions
@@ -184,8 +185,9 @@ def test_review_given_date(
     expected_repetitions,
     expected_review_date,
 ):
-    reviewed = review(quality, easiness, interval, repetitions, review_date)
-    assert reviewed["quality"] == quality
+    sm = SMTwo(easiness, interval, repetitions)
+    reviewed = sm.review(quality, review_date)
+
     assert reviewed["easiness"] == expected_easiness
     assert reviewed["interval"] == expected_interval
     assert reviewed["repetitions"] == expected_repetitions

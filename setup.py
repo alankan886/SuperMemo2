@@ -44,7 +44,7 @@ setup(
     keywords="spaced-repetition SM-2 SuperMemo Python",
     packages=find_packages(),
     include_package_data=True,
-    install_requires=[],
+    install_requires=["attrs"],
     cmdclass={
         "clean": CleanCommand,
     },
