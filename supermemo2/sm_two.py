@@ -12,12 +12,13 @@ day_mon_year = "%d-%m-%Y"
 
 @attr.s
 class SMTwo:
-    easiness = attr.ib(default=2.5, validator=attr.validators.instance_of(float))
-    interval = attr.ib(default=0, validator=attr.validators.instance_of(int))
-    repetitions = attr.ib(default=0, validator=attr.validators.instance_of(int))
+    easiness = attr.ib(validator=attr.validators.instance_of(float))
+    interval = attr.ib(validator=attr.validators.instance_of(int))
+    repetitions = attr.ib(validator=attr.validators.instance_of(int))
+    review_date = attr.ib(init=False)
 
+    @staticmethod
     def first_review(
-        self,
         quality: int,
         review_date: Optional[Union[date, str]] = None,
         date_fmt: Optional[str] = None,
@@ -28,11 +29,7 @@ class SMTwo:
         if not date_fmt:
             date_fmt = year_mon_day
 
-        self.easiness = 2.5
-        self.interval = 0
-        self.repetitions = 0
-
-        return self.review(quality, review_date, date_fmt)
+        return SMTwo.review(SMTwo(2.5, 0, 0), quality, review_date, date_fmt)
 
     def review(
         self,
@@ -67,9 +64,6 @@ class SMTwo:
             self.easiness = 1.3
 
         review_date += timedelta(days=self.interval)
-        return {
-            "easiness": self.easiness,
-            "interval": self.interval,
-            "repetitions": self.repetitions,
-            "review_date": review_date,
-        }
+        self.review_date = review_date
+
+        return self

@@ -23,13 +23,13 @@ def test_first_review(
     expected_repetitions,
     expected_review_date,
 ):
-    sm = SMTwo()
-    reviewed = sm.first_review(quality)
 
-    assert reviewed["easiness"] == expected_easiness
-    assert reviewed["interval"] == expected_interval
-    assert reviewed["repetitions"] == expected_repetitions
-    assert reviewed["review_date"] == expected_review_date
+    reviewed = SMTwo.first_review(quality)
+
+    assert reviewed.easiness == expected_easiness
+    assert reviewed.interval == expected_interval
+    assert reviewed.repetitions == expected_repetitions
+    assert reviewed.review_date == expected_review_date
 
 
 @pytest.mark.parametrize(
@@ -51,13 +51,12 @@ def test_first_review_given_date(
     expected_repetitions,
     expected_review_date,
 ):
-    sm = SMTwo()
-    reviewed = sm.first_review(quality, review_date)
+    reviewed = SMTwo.first_review(quality, review_date)
 
-    assert reviewed["easiness"] == expected_easiness
-    assert reviewed["interval"] == expected_interval
-    assert reviewed["repetitions"] == expected_repetitions
-    assert reviewed["review_date"] == expected_review_date
+    assert reviewed.easiness == expected_easiness
+    assert reviewed.interval == expected_interval
+    assert reviewed.repetitions == expected_repetitions
+    assert reviewed.review_date == expected_review_date
 
 
 @pytest.mark.parametrize(
@@ -70,13 +69,12 @@ def test_first_review_given_date(
     ],
 )
 def test_first_review_given_date_in_str(str_date, date_fmt):
-    sm = SMTwo()
-    reviewed = sm.first_review(3, str_date, date_fmt)
+    reviewed = SMTwo.first_review(3, str_date, date_fmt)
 
-    assert reviewed["easiness"] == 2.36
-    assert reviewed["interval"] == 1
-    assert reviewed["repetitions"] == 1
-    assert reviewed["review_date"] == date(2021, 12, 1) + timedelta(days=1)
+    assert reviewed.easiness == 2.36
+    assert reviewed.interval == 1
+    assert reviewed.repetitions == 1
+    assert reviewed.review_date == date(2021, 12, 1) + timedelta(days=1)
 
 
 @pytest.mark.parametrize(
@@ -103,10 +101,10 @@ def test_review(
     sm = SMTwo(easiness, interval, repetitions)
     reviewed = sm.review(quality)
 
-    assert reviewed["easiness"] == expected_easiness
-    assert reviewed["interval"] == expected_interval
-    assert reviewed["repetitions"] == expected_repetitions
-    assert reviewed["review_date"] == expected_review_date
+    assert reviewed.easiness == expected_easiness
+    assert reviewed.interval == expected_interval
+    assert reviewed.repetitions == expected_repetitions
+    assert reviewed.review_date == expected_review_date
 
 
 @pytest.mark.parametrize(
@@ -188,7 +186,7 @@ def test_review_given_date(
     sm = SMTwo(easiness, interval, repetitions)
     reviewed = sm.review(quality, review_date)
 
-    assert reviewed["easiness"] == expected_easiness
-    assert reviewed["interval"] == expected_interval
-    assert reviewed["repetitions"] == expected_repetitions
-    assert reviewed["review_date"] == expected_review_date
+    assert reviewed.easiness == expected_easiness
+    assert reviewed.interval == expected_interval
+    assert reviewed.repetitions == expected_repetitions
+    assert reviewed.review_date == expected_review_date
