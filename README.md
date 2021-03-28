@@ -1,9 +1,9 @@
 # SuperMemo2
-![Python](https://img.shields.io/badge/python-3.6+-blue.svg?logo=python&longCache=true&logoColor=white&colorB=5e81ac&style=flat-square&colorA=4c566a)
+![Python](https://img.shields.io/badge/python-3+-blue.svg?logo=python&longCache=true&logoColor=white&colorB=5e81ac&style=flat-square&colorA=4c566a)
 [![Version](https://img.shields.io/pypi/v/supermemo2?logo=pypi&logoColor=white&style=flat-square&colorA=4c566a&colorB=90A2BC)](https://pypi.org/project/supermemo2/)
 [![Build](https://img.shields.io/github/workflow/status/alankan886/SuperMemo2/CI?logo=github-actions&logoColor=white&style=flat-square&colorA=4c566a&colorB=90BCA8)](https://github.com/alankan886/SuperMemo2/actions?query=workflow%3ACI)
 [![Coverage](https://img.shields.io/codecov/c/github/alankan886/SuperMemo2?logo=codecov&logoColor=white&style=flat-square&colorA=4c566a&colorB=90BCA8)](https://codecov.io/gh/alankan886/SuperMemo2)
-[![Download](https://img.shields.io/badge/downloads-2k-light--blue.svg?style=flat-square&colorA=4c566a&colorB=90A2BC)](https://pepy.tech/project/SuperMemo2)
+[![Download](https://img.shields.io/badge/downloads-4k-light--blue.svg?style=flat-square&colorA=4c566a&colorB=90A2BC)](https://pepy.tech/project/SuperMemo2)
 
 A package that implemented the spaced repetition algorithm SM-2 for you to quickly calculate your next review date for whatever you are learning.
 
@@ -16,12 +16,8 @@ A package that implemented the spaced repetition algorithm SM-2 for you to quick
 - [Installing and Supported Versions](#install-versions)
 - [A Simple Example](#example)
 - [Features](#features)
-	- [Potential Features](#potential)
-- [What is SuperMemo-2?](#sm2)
-- [API Reference](#api)
-	- [Main Interface](#main-interface)
-	- [Exceptions](#excep)
-	- [Lower-Level Classes](#classes)
+- [What is SM-2?](#sm2)
+- [Code Reference](#code)
 - [Testing](#testing)
 - [Changelog](#changelog)
 - [Credits](#credits)
@@ -56,51 +52,40 @@ Install dependencies to run the code:
 pip3 install -r requirements.txt
 ```
 
-supermemo2 supports Python 3.6+ and requires attrs >= 20.1.0.
+supermemo2 supports Python 3+
 
 <a name="example">
 
 ## A Simple Example
 
-We start with a recall quality of 3, and the review date defaults to today (let's pretend it's 2021-01-01). 
-
-Using the current values from the first review can help us calculate for the second review.
-
-Grab the current values from the first review, and update the recall quality. Then calculate the next review date.
-
 ```python
->>> from supermemo2 import first_review
->>> smtwo = first_review(3)
->>> print(smtwo.review_date)
-2021-01-02
->>> record = smtwo.as_dict(curr=True)
->>> record["quality"] = 5
->>> smtwo.calc(**record)
->>> print(smtwo.review_date)
-2021-01-08
+from supermemo2 import SMTwo
+
+# first review
+# using quality=4 as an example, read below for what each value from 0 to 5 represents
+# review date would default to date.today() if not provided
+review = SMTwo.first_review(4, "2021-3-14")
+# review prints SMTwo(easiness=2.36, interval=1, repetitions=1, review_date=datetime.date(2021, 3, 15))
+
+# second review
+review = SMTwo(review.easiness, review.interval, review.repetitions).review(4, "2021-3-14")
+# review prints similar to example above.
 ```
 
 <a name="features">
 
 ## Features
-📣 &nbsp;Calculates the next review date of the task following the SuperMemo-2/SM-2 algorithm.
-<br/> 📣 &nbsp;The first_review method to create a new instance at ease without having to know the initial values.
-<br/> 📣 &nbsp;The modify method to modify existing instance values that recalculates the new values.
-<br/> 📣 &nbsp;The json and dict methods to export the instance values and to help calculate the next review date.
-
-<a name="potential">
-
-### Potential Features
-- Allow users to pass the review date as a string in many formats.
+📣 &nbsp;Calculates the review date of the task following the SM-2 algorithm.
+<br/> 📣 &nbsp;The first_review method to calculate the review date at ease without having to know the initial values.
 
 <a name="sm2">
 
-## What is SuperMemo-2?
+## What is SM-2?
 🎥 &nbsp;If you are curious of what spaced repetition is, check this [short video](https://youtu.be/-uMMRjrzPmE?t=94) out.
 
 📌 &nbsp;A longer but interactive [article](https://ncase.me/remember/) on spaced repetition learning.
 
-📎 &nbsp;[The SuperMemo-2 Algorithm](https://www.supermemo.com/en/archives1990-2015/english/ol/sm2)
+📎 &nbsp;[The SM-2 Algorithm](https://www.supermemo.com/en/archives1990-2015/english/ol/sm2)
 
 ### What are the "values"?
 The values are the:
@@ -116,154 +101,82 @@ The values are the:
 - Interval: The gap/space between your next review.
 - Repetitions: The count of correct response (quality >= 3) you have in a row.
 
-<a name="api">
+<a name="code">
 
-## API Reference
+## Code Reference
+### *class* supermemo2.SMTwo(easiness, interval, repetitions)
 
-<a name="main-interface">
+**Parameters:**
+- easiness (float) - the easiness determines the interval.
+- interval (int) - the interval between the latest review date and the next review date.
+- repetitions (int) - the count of consecutive reviews with quality larger than 2.
 
-### Main Interface
-supermemo2.**first_review**(quality, review_date=datetime.date.today())
+<br>
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calcualtes next review date without having to know the initial values, and returns an SMTwo object with new values.
+**first_review(** quality, review_date=None, date_fmt=None **)**
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
-- **quality**(int) - the quality of the response/recall from a scale of 0 to 5.
-- **review_date** (Optional[datetime.date]) - the last review date.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Static method that calcualtes the next review date for the first review without having to know the initial values, and returns a dictionary containing the new values.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Returns:** SMTwo object
+**Parameters:**
+- quality (int) - the recall quality of the review.
+- review_date (str or datetime.date) - optional parameter, the date of the review.
+- date_fmt (string) - optional parameter, the format of the review_date. Formats like `year_mon_day`, `mon_day_year` and `day_mon_year`.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return Type:** supermemo2.SMTwo
+**Returns:** dictionary containing values like quality, easiness, interval, repetitions and review_date.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Usage:
+**Return Type:** Dict
+
+**Usage:**
 ```python
->>> from supermemo2 import first_review
->>> from datetime import date
->>> smtwo = first_review(3, date(2021, 1, 1))
->>> print(smtwo.review_date)
-2021-01-02
+from supermemo2 import SMTwo, mon_day_year
+# using default date date.today()
+SMTwo.first_review(3)
+
+# providing string date in Year-Month-Day format
+SMTwo.first_review(3, "2021-12-01")
+
+# providing string date in Month-Day-Year format
+SMTwo.first_review(3, "12-01-2021", mon_day_year)
+
+# providing date object date
+from datetime import date
+d = date(2021, 12, 1)
+SMTwo.first_review(3, d)
 ```
 
-supermemo2.**modify**(instance, quality=None, easiness=None, interval=None, repetitions=None, review_date=None)
+**review(** quality, review_date=None, date_fmt=None **)**
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Modifies previously inserted values.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calcualtes the next review date based on previous values, and returns a dictionary containing the new values.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
-- **instance** (SMTwo) - the SMTwo instance to modify.
-- **quality** (Optional[int]) - the quality value to replace the previous quality value.
-- **easiness** (Optional[float])- the easiness value to replace the previous easiness value.
-- **interval** (Optional[int]) - the interval value to replace the previous interval value.
-- **repetitions** (Optional[int])  - the repetitions value to replace the previous reptitions value.
-- **review_date** (Optional[datetime.date]) - the review date to replace the previous review date.
+**Parameters:**
+- quality (int) - the recall quality of the review.
+- review_date (str or datetime.date) - optional parameter, the date of the review.
+- date_fmt (string) - optional parameter, the format of the review_date. Formats like `year_mon_day`, `mon_day_year` and `day_mon_year`.
 
+**Returns:** dictionary containing values like quality, easiness, interval, repetitions and review_date.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Returns:** None
+**Return Type:** Dict
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return Type:** None
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Usage:
+**Usage:**
 ```python
->>> from supermemo2 import first_review, modify
->>> smtwo = first_review(3)
->>> print(smtwo.quality)
-3
->>> modify(smtwo, quality=5)
->>> print(smtwo.quality)
-5
+from supermemo2 import SMTwo, mon_day_year
+# using previous values from first_review call
+r = SMTwo.first_review(3)
+
+# using default date date.today()
+SMTwo(r.easiness, r.interval, r.repetitions).review(3)
+
+# providing string date in Year-Month-Day format
+SMTwo(r.easiness, r.interval, r.repetitions).review(3, "2021-12-01")
+
+# providing string date in Month-Day-Year format
+SMTwo(r.easiness, r.interval, r.repetitions).review(3, "12-01-2021", mon_day_year)
+
+# providing date object date
+from datetime import date
+d = date(2021, 12, 1)
+SMTwo(r.easiness, r.interval, r.repetitions).review(3, d)
 ```
-
-<a name="excep">
-
-### Exceptions
-exception supermemo2.exceptions.**CalcNotCalledYet**
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Other methods are called before the values are calculated.
-
-<a name="classes">
-
-### Lower-Level Classes
-class supermemo2.**SMTwo()**
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Generates all the instances and contains the tools.
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I would not recommend directly generating an instance from this class.
-
-**calc**(quality, easiness, interval, repetitions, review_date)
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calculates the values. For the first review, the initial/previous values would be 2.5 for easiness, 1 for interval and 1 for repetitions.
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
-- **quality** (Optional[int]) - the quality value received from the last calculation.
-- **easiness** (Optional[float])- the easiness value received from the last calculation.
-- **interval** (Optional[int]) - the interval value received from the last calculation.
-- **repetitions** (Optional[int])  - the repetitions value received from the last calculation.
-- **review_date** (Optional[datetime.date]) - the review date received from the last calculation.
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Returns:** None
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return Type** None
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Usage:
-```python
->>> from supermemo2 import SMTwo
->>> from datetime import date
->>> smtwo = SMTwo()
->>> smtwo.calc(3, 2.5, 1, 1, date(2021, 1, 1))
->>> print(smtwo.review_date)
-2021-01-02
-```
-
-**json**(prev=None, curr=None)
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a string of the values in JSON format.
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
-- **prev** (Optional[bool]) - If true, export only previous values.
-- **curr** (Optional[bool]) - If true, export only current values.
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Returns:** String in JSON format
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return Type** String
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Usage:
-```python
->>> from supermemo2 import first_visit
->>> from datetime import date
->>> smtwo = first_visit(3, date(2021, 1, 1))
->>> print(smtwo.json())
-'{"quality": 3, "prev_easiness": 2.5, "prev_interval": 1, "prev_repetitions": 1, "prev_review_date": datetime.date(2021, 1, 1),"easiness": 2.36, "interval": 2, "repetitions": 1, "review_date": datetime.date(2021, 1, 2)}'
-```
-
-**dict**(prev=None, curr=None)
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a the values in dictionary format.
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
-- **prev** (Optional[bool]) - If true, export only previous values.
-- **curr** (Optional[bool]) - If true, export only current values.
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Returns:** Dictionary
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Return Type** Dict
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Usage:
-```python
->>> from supermemo2 import first_visit
->>> from datetime import date
->>> smtwo = first_visit(3, date(2021, 1, 1))
->>> print(smtwo.dict())
-'{"quality": 3, "prev_easiness": 2.5, "prev_interval": 1, "prev_repetitions": 1, "prev_review_date": datetime.date(2021, 1, 1),"easiness": 2.36, "interval": 2, "repetitions": 1, "review_date": datetime.date(2021, 1, 2)}'
-```
-
-class supermemo2.SMTwo.**Prev**(easiness, interval, repetitions, review_date)
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stores the previous values.
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Parameters:**
-- **easiness** (float)- the previous easiness value.
-- **interval** (int) - the previous interval value.
-- **repetitions** (int)  - the previous repetitions value.
-- **review_date** (datetime.date) - the previous review date.
 
 <a name="testing">
 
@@ -278,13 +191,16 @@ pytest tests/
 
 ### Check test coverages
 ```bash
-pytest --cov=supermemo2
+pytest --cov
 ```
 Check coverage on [Codecov](https://codecov.io/gh/alankan886/SuperMemo2).
 
 <a name="changelog">
 
 ## Changelog
+2.0.0 (2021-03-28): Major changes/rebuild, Update recommended
+- Rebuilt and simplfied the package.
+
 1.0.3 (2021-01-30): Minor bug fix, Update recommended
 - Re-evaluate the default date argument to first_review() on each call.
 
@@ -311,7 +227,7 @@ Check coverage on [Codecov](https://codecov.io/gh/alankan886/SuperMemo2).
 - Fix interval calculation error when q < 3.
 
 0.0.3 (2020-07-06): Documentation Update, Update not required
-- Add new section about SuperMemo-2 in documentation, and fix some formats in README.
+- Add new section about SM-2 in documentation, and fix some formats in README.
 
 0.0.2 (2020-07-05): Refactor feature, Update recommended
 - Refactor the supermemo2 algorithm code into a simpler structure, and remove unnecessary methods in the class.
@@ -323,7 +239,6 @@ Check coverage on [Codecov](https://codecov.io/gh/alankan886/SuperMemo2).
 
 ## Credits
 
-1. [attrs](https://www.attrs.org/en/stable/index.html)
-2. [pytest](https://docs.pytest.org/en/stable/)
-3. [The SuperMemo-2 Algorithm](https://www.supermemo.com/en/archives1990-2015/english/ol/sm2)
+1. [pytest](https://docs.pytest.org/en/stable/)
+2. [The SM-2 Algorithm](https://www.supermemo.com/en/archives1990-2015/english/ol/sm2)
 
