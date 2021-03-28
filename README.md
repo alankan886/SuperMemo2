@@ -59,19 +59,17 @@ supermemo2 supports Python 3+
 ## A Simple Example
 
 ```python
-from supermemo2 import first_review, review
+from supermemo2 import SMTwo
 
 # first review
 # using quality=4 as an example, read below for what each value from 0 to 5 represents
 # review date would default to date.today() if not provided
-reviewed = first_review(4, "2021-3-14")
-# reviewed prints {'quality': 4, 'easiness': 2.5, 'interval': 1, 'repetitions': 1, 'review_date': datetime.date(2021, 3, 15)}
+review = SMTwo.first_review(4, "2021-3-14")
+# review prints SMTwo(easiness=2.36, interval=1, repetitions=1, review_date=datetime.date(2021, 3, 15))
 
 # second review
-reviewed.update({"quality": 4)
-reviewed = review(**reviewed)
-# reviewed prints {'quality': 4, 'easiness': 2.5, 'interval': 6, 'repetitions': 2, 'review_date': datetime.date(2021, 3, 21)}
-
+review = SMTwo(review.easiness, review.interval, review.repetitions).review(4, "2021-3-14")
+# review prints similar to example above.
 ```
 
 <a name="features">
@@ -106,9 +104,18 @@ The values are the:
 <a name="code">
 
 ## Code Reference
-supermemo2.**first_review**(quality, review_date=None, date_fmt=None)
+### *class* supermemo2.SMTwo(easiness, interval, repetitions)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calcualtes the next review date for the first review without having to know the initial values, and returns a dictionary containing the new values.
+**Parameters:**
+- easiness (float) - the easiness determines the interval.
+- interval (int) - the interval between the latest review date and the next review date.
+- repetitions (int) - the count of consecutive reviews with quality larger than 2.
+
+<br>
+
+**first_review(** quality, review_date=None, date_fmt=None **)**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Static method that calcualtes the next review date for the first review without having to know the initial values, and returns a dictionary containing the new values.
 
 **Parameters:**
 - quality (int) - the recall quality of the review.
@@ -121,31 +128,28 @@ supermemo2.**first_review**(quality, review_date=None, date_fmt=None)
 
 **Usage:**
 ```python
-from supermemo2 import first_review, mon_day_year
+from supermemo2 import SMTwo, mon_day_year
 # using default date date.today()
-first_review(3)
+SMTwo.first_review(3)
 
 # providing string date in Year-Month-Day format
-first_review(3, "2021-12-01")
+SMTwo.first_review(3, "2021-12-01")
 
 # providing string date in Month-Day-Year format
-first_review(3, "12-01-2021", mon_day_year)
+SMTwo.first_review(3, "12-01-2021", mon_day_year)
 
 # providing date object date
 from datetime import date
 d = date(2021, 12, 1)
-first_review(3, d)
+SMTwo.first_review(3, d)
 ```
 
-supermemo2.**review**(quality, easiness, interval, repetitions, review_date=None, date_fmt=None)
+**review(** quality, review_date=None, date_fmt=None **)**
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calcualtes the next review date based on previous values, and returns a dictionary containing the new values.
 
 **Parameters:**
 - quality (int) - the recall quality of the review.
-- easiness (float) - the easiness determines the interval.
-- interval (int) - the interval between the latest review date and the next review date.
-- repetitions (int) - the count of consecutive reviews with quality larger than 2.
 - review_date (str or datetime.date) - optional parameter, the date of the review.
 - date_fmt (string) - optional parameter, the format of the review_date. Formats like `year_mon_day`, `mon_day_year` and `day_mon_year`.
 
@@ -155,26 +159,23 @@ supermemo2.**review**(quality, easiness, interval, repetitions, review_date=None
 
 **Usage:**
 ```python
-from supermemo2 import review, mon_day_year
+from supermemo2 import SMTwo, mon_day_year
 # using previous values from first_review call
-r = first_review(3)
-# update the review_date if the date of your review doesn't match the calculated review_date (i.e. not reviewing on time/missed the review date)
-r.update({"quality": 5})
-review(**r)
+r = SMTwo.first_review(3)
 
 # using default date date.today()
-review(3, 2.5, 1, 1)
+SMTwo(r.easiness, r.interval, r.repetitions).review(3)
 
 # providing string date in Year-Month-Day format
-review(3, 2.5, 1, 1, "2021-12-01")
+SMTwo(r.easiness, r.interval, r.repetitions).review(3, "2021-12-01")
 
 # providing string date in Month-Day-Year format
-review(3, 2.5, 1, 1, "12-01-2021", mon_day_year)
+SMTwo(r.easiness, r.interval, r.repetitions).review(3, "12-01-2021", mon_day_year)
 
 # providing date object date
 from datetime import date
 d = date(2021, 12, 1)
-review(3, 2.5, 1, 1, d)
+SMTwo(r.easiness, r.interval, r.repetitions).review(3, d)
 ```
 
 <a name="testing">
@@ -197,7 +198,7 @@ Check coverage on [Codecov](https://codecov.io/gh/alankan886/SuperMemo2).
 <a name="changelog">
 
 ## Changelog
-2.0.0 (2021-03-14): Major changes/rebuild, Update recommended
+2.0.0 (2021-03-28): Major changes/rebuild, Update recommended
 - Rebuilt and simplfied the package.
 
 1.0.3 (2021-01-30): Minor bug fix, Update recommended

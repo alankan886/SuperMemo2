@@ -22,7 +22,7 @@ class SMTwo:
         quality: int,
         review_date: Optional[Union[date, str]] = None,
         date_fmt: Optional[str] = None,
-    ) -> 'SMTwo':
+    ) -> "SMTwo":
         if not review_date:
             review_date = date.today()
 
@@ -36,7 +36,7 @@ class SMTwo:
         quality: int,
         review_date: Optional[Union[date, str]] = None,
         date_fmt: Optional[str] = None,
-    ) -> 'SMTwo':
+    ) -> "SMTwo":
         if not review_date:
             review_date = date.today()
 
