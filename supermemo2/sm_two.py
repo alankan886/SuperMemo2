@@ -22,21 +22,21 @@ class SMTwo:
         quality: int,
         review_date: Optional[Union[date, str]] = None,
         date_fmt: Optional[str] = None,
-    ) -> Dict:
+    ) -> SMTwo:
         if not review_date:
             review_date = date.today()
 
         if not date_fmt:
             date_fmt = year_mon_day
 
-        return SMTwo.review(SMTwo(2.5, 0, 0), quality, review_date, date_fmt)
+        return SMTwo(2.5, 0, 0).review(quality, review_date, date_fmt)
 
     def review(
         self,
         quality: int,
         review_date: Optional[Union[date, str]] = None,
         date_fmt: Optional[str] = None,
-    ) -> Dict:
+    ) -> SMTwo:
         if not review_date:
             review_date = date.today()
 
