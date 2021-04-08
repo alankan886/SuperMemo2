@@ -5,7 +5,7 @@ on:
   pull_request:
     branches: ["master"]
 jobs:
-  build_3.5_plus:
+  build_three_five_plus:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -22,7 +22,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install pytest-cov
           pytest --cov=supermemo2
-  build_3.4:
+  build_lower_threes:
     runs-on: windows-latest
     strategy:
       matrix:
