@@ -1,5 +1,5 @@
 # SuperMemo2
-![Python](https://img.shields.io/badge/python-3+-blue.svg?logo=python&longCache=true&logoColor=white&colorB=5e81ac&style=flat-square&colorA=4c566a)
+![Python](https://img.shields.io/badge/python-3.7+-blue.svg?logo=python&longCache=true&logoColor=white&colorB=5e81ac&style=flat-square&colorA=4c566a)
 [![Version](https://img.shields.io/pypi/v/supermemo2?logo=pypi&logoColor=white&style=flat-square&colorA=4c566a&colorB=90A2BC)](https://pypi.org/project/supermemo2/)
 [![Build](https://img.shields.io/github/workflow/status/alankan886/SuperMemo2/CI?logo=github-actions&logoColor=white&style=flat-square&colorA=4c566a&colorB=90BCA8)](https://github.com/alankan886/SuperMemo2/actions?query=workflow%3ACI)
 [![Coverage](https://img.shields.io/codecov/c/github/alankan886/SuperMemo2?logo=codecov&logoColor=white&style=flat-square&colorA=4c566a&colorB=90BCA8)](https://codecov.io/gh/alankan886/SuperMemo2)
@@ -52,23 +52,23 @@ Install dependencies to run the code:
 pip3 install -r requirements.txt
 ```
 
-supermemo2 supports Python 3+
+supermemo2 supports Python 3.7+
 
 <a name="example">
 
 ## A Simple Example
 
 ```python
-from supermemo2 import SMTwo
+from supermemo2 import first_review, review
 
 # first review
 # using quality=4 as an example, read below for what each value from 0 to 5 represents
-# review date would default to date.today() if not provided
-review = SMTwo.first_review(4, "2021-3-14")
-# review prints SMTwo(easiness=2.36, interval=1, repetitions=1, review_date=datetime.date(2021, 3, 15))
+# review date would default to datetime.utcnow() if not provided
+first_review = first_review(4, "2021-3-14")
+# review prints { "easiness": 2.36, "interval": 1, "repetitions": 1, "review_datetime": "2024-06-23 01:06:02"))
 
 # second review
-review = SMTwo(review.easiness, review.interval, review.repetitions).review(4, "2021-3-14")
+second_review = review(4, first_review["easiness"], first_review["interval"], first_review["repetitions"], first_review["review_datetime"])
 # review prints similar to example above.
 ```
 
