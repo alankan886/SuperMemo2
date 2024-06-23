@@ -64,7 +64,7 @@ from supermemo2 import first_review, review
 # first review
 # using quality=4 as an example, read below for what each value from 0 to 5 represents
 # review date would default to datetime.utcnow() (UTC timezone) if not provided
-first_review = first_review(4, "2021-3-14")
+first_review = first_review(4, "2024-06-22")
 # review prints { "easiness": 2.36, "interval": 1, "repetitions": 1, "review_datetime": "2024-06-23 01:06:02"))
 
 # second review
@@ -104,9 +104,36 @@ The values are the:
 <a name="code">
 
 ## Code Reference
-**first_review(** quality, easiness, interval, repetitions, review_datetime=None**)**
+**first_review(** quality, review_datetime=None**)**
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function that calcualtes the next review datetime for the your first review without having to know the initial values, and returns a dictionary containing the new values.
+
+**Parameters:**
+- quality (int) - the recall quality of the review.
+- review_datetime (str or datetime.datetime) - optional parameter, the datetime in ISO format up to seconds in UTC timezone of the review.
+
+**Returns:** dictionary containing values like quality, easiness, interval, repetitions and review_datetime.
+
+**Return Type:** Dict
+
+**Usage:**
+```python
+from supermemo2 import first_review
+# using default datetime.utcnow() if you just reviewed it
+first_review(3)
+
+# providing string date in Year-Month-Day format
+first_review(3, "2024-06-22")
+
+# providing date object date
+from datetime import datetime
+d = datetime(2024, 1, 1)
+first_review(3, d)
+```
+
+**review(** quality, easiness, interval, repetitions, review_datetime=None **)**
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calcualtes the next review date based on previous values, and returns a dictionary containing the new values.
 
 **Parameters:**
 - quality (int) - the recall quality of the review.
@@ -121,54 +148,23 @@ The values are the:
 
 **Usage:**
 ```python
-from supermemo2 import SMTwo, mon_day_year
-# using default date date.today()
-SMTwo.first_review(3)
-
-# providing string date in Year-Month-Day format
-SMTwo.first_review(3, "2021-12-01")
-
-# providing string date in Month-Day-Year format
-SMTwo.first_review(3, "12-01-2021", mon_day_year)
-
-# providing date object date
-from datetime import date
-d = date(2021, 12, 1)
-SMTwo.first_review(3, d)
-```
-
-**review(** quality, review_date=None, date_fmt=None **)**
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calcualtes the next review date based on previous values, and returns a dictionary containing the new values.
-
-**Parameters:**
-- quality (int) - the recall quality of the review.
-- review_date (str or datetime.date) - optional parameter, the date of the review.
-- date_fmt (string) - optional parameter, the format of the review_date. Formats like `year_mon_day`, `mon_day_year` and `day_mon_year`.
-
-**Returns:** dictionary containing values like quality, easiness, interval, repetitions and review_date.
-
-**Return Type:** Dict
-
-**Usage:**
-```python
-from supermemo2 import SMTwo, mon_day_year
+from supermemo2 import first_review, review
 # using previous values from first_review call
-r = SMTwo.first_review(3)
+r = first_review(3)
 
-# using default date date.today()
-SMTwo(r.easiness, r.interval, r.repetitions).review(3)
+# using default datetime.utcnow() if you just reviewed it
+review(3, r["easiness"], r["interval"], r["repetitions"])
 
-# providing string date in Year-Month-Day format
-SMTwo(r.easiness, r.interval, r.repetitions).review(3, "2021-12-01")
+# providing review_datetime from previous review
+review(3, r["easiness"], r["interval"], r["repetitions"], r["review_datetime"])
 
-# providing string date in Month-Day-Year format
-SMTwo(r.easiness, r.interval, r.repetitions).review(3, "12-01-2021", mon_day_year)
+# providing string review_datetime
+review(3, r["easiness"], r["interval"], r["repetitions"], "2024-01-01")
 
-# providing date object date
-from datetime import date
-d = date(2021, 12, 1)
-SMTwo(r.easiness, r.interval, r.repetitions).review(3, d)
+# providing datetime object review_datetime
+from datetime import datetime
+d = datetime(2024, 1, 1)
+review(3, r["easiness"], r["interval"], r["repetitions"], d)
 ```
 
 <a name="testing">
