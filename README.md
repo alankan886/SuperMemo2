@@ -35,7 +35,7 @@ The goal was to have an efficient way to calculate the next review date for stud
 Install and upate the package using [pip](https://pip.pypa.io/en/stable/quickstart/):
 
 ```bash
-pip3 install -U supermemo2
+pip install -U supermemo2
 ```
 
 <a name="download">
@@ -49,7 +49,7 @@ git clone https://github.com/alankan886/SuperMemo2.git
 
 Install dependencies to run the code:
 ```bash
-pip3 install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 supermemo2 supports Python 3.8+
@@ -63,7 +63,7 @@ from supermemo2 import first_review, review
 
 # first review
 # using quality=4 as an example, read below for what each value from 0 to 5 represents
-# review date would default to datetime.utcnow() if not provided
+# review date would default to datetime.utcnow() (UTC timezone) if not provided
 first_review = first_review(4, "2021-3-14")
 # review prints { "easiness": 2.36, "interval": 1, "repetitions": 1, "review_datetime": "2024-06-23 01:06:02"))
 
@@ -104,25 +104,18 @@ The values are the:
 <a name="code">
 
 ## Code Reference
-### *class* supermemo2.SMTwo(easiness, interval, repetitions)
+**first_review(** quality, easiness, interval, repetitions, review_datetime=None**)**
 
-**Parameters:**
-- easiness (float) - the easiness determines the interval.
-- interval (int) - the interval between the latest review date and the next review date.
-- repetitions (int) - the count of consecutive reviews with quality larger than 2.
-
-<br>
-
-**first_review(** quality, review_date=None, date_fmt=None **)**
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Static method that calcualtes the next review date for the first review without having to know the initial values, and returns a dictionary containing the new values.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function that calcualtes the next review datetime for the your first review without having to know the initial values, and returns a dictionary containing the new values.
 
 **Parameters:**
 - quality (int) - the recall quality of the review.
-- review_date (str or datetime.date) - optional parameter, the date of the review.
-- date_fmt (string) - optional parameter, the format of the review_date. Formats like `year_mon_day`, `mon_day_year` and `day_mon_year`.
+- easiness (float) - the easiness determines the interval.
+- interval (int) - the interval between the latest review date and the next review date.
+- repetitions (int) - the count of consecutive reviews with quality larger than 2.
+- review_datetime (str or datetime.datetime) - optional parameter, the datetime in ISO format up to seconds in UTC timezone of the review.
 
-**Returns:** dictionary containing values like quality, easiness, interval, repetitions and review_date.
+**Returns:** dictionary containing values like quality, easiness, interval, repetitions and review_datetime.
 
 **Return Type:** Dict
 
