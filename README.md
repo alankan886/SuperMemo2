@@ -65,11 +65,13 @@ from supermemo2 import first_review, review
 # using quality=4 as an example, read below for what each value from 0 to 5 represents
 # review date would default to datetime.utcnow() (UTC timezone) if not provided
 first_review = first_review(4, "2024-06-22")
-# review prints { "easiness": 2.36, "interval": 1, "repetitions": 1, "review_datetime": "2024-06-23 01:06:02"))
+# first_review prints { "easiness": 2.36, "interval": 1, "repetitions": 1, "review_datetime": "2024-06-23 01:06:02"))
 
 # second review
 second_review = review(4, first_review["easiness"], first_review["interval"], first_review["repetitions"], first_review["review_datetime"])
-# review prints similar to example above.
+# or just unpack the first review dictionary
+second_review = review(4, **first_review)
+# second_review prints similar to example above.
 ```
 
 <a name="features">
@@ -187,6 +189,9 @@ Check coverage on [Codecov](https://codecov.io/gh/alankan886/SuperMemo2).
 <a name="changelog">
 
 ## Changelog
+3.0.1 (2024-06-22): Minor changes, Update recommended
+- Forgot to update some code and tests from review_date to review_datetime, the returned dictionary was review_date instead review_datetime.
+
 3.0.0 (2024-06-22): Major changes/rebuild, Update recommended
 - Rewrote the code to remove the class structure, simplfying the code and usability.
 - Update to provide datetime instead of just date, more specific with when to review.

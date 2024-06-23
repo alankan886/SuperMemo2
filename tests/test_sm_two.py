@@ -70,12 +70,12 @@ def test_first_review(
     assert reviewed["easiness"] == expected_easiness
     assert reviewed["interval"] == expected_interval
     assert reviewed["repetitions"] == expected_repetitions
-    assert reviewed["review_date"] == expected_review_date
+    assert reviewed["review_datetime"] == expected_review_date
 
 
 @freeze_time(FREEZE_DATE)
 @pytest.mark.parametrize(
-    "quality, review_date, expected_easiness, expected_interval, expected_repetitions, expected_review_date",
+    "quality, review_datetime, expected_easiness, expected_interval, expected_repetitions, expected_review_date",
     [
         (0, MOCK_TODAY, 1.7000000000000002, 1, 0, str(MOCK_TODAY + timedelta(days=1))),
         (1, MOCK_TODAY, 1.96, 1, 0, str(MOCK_TODAY + timedelta(days=1))),
@@ -87,18 +87,18 @@ def test_first_review(
 )
 def test_first_review_given_date(
     quality,
-    review_date,
+    review_datetime,
     expected_easiness,
     expected_interval,
     expected_repetitions,
     expected_review_date,
 ):
-    reviewed = first_review(quality, review_date)
+    reviewed = first_review(quality, review_datetime)
 
     assert reviewed["easiness"] == expected_easiness
     assert reviewed["interval"] == expected_interval
     assert reviewed["repetitions"] == expected_repetitions
-    assert reviewed["review_date"] == expected_review_date
+    assert reviewed["review_datetime"] == expected_review_date
 
 
 @freeze_time(FREEZE_DATE)
@@ -137,11 +137,11 @@ def test_review(
     assert reviewed["easiness"] == expected_easiness
     assert reviewed["interval"] == expected_interval
     assert reviewed["repetitions"] == expected_repetitions
-    assert reviewed["review_date"] == expected_review_date
+    assert reviewed["review_datetime"] == expected_review_date
 
 
 @pytest.mark.parametrize(
-    "quality, easiness, interval, repetitions, review_date, expected_easiness, expected_interval, expected_repetitions, expected_review_date",
+    "quality, easiness, interval, repetitions, review_datetime, expected_easiness, expected_interval, expected_repetitions, expected_review_date",
     [
         (
             0,
@@ -210,15 +210,15 @@ def test_review_given_date(
     easiness,
     interval,
     repetitions,
-    review_date,
+    review_datetime,
     expected_easiness,
     expected_interval,
     expected_repetitions,
     expected_review_date,
 ):
-    reviewed = review(quality, easiness, interval, repetitions, review_date)
+    reviewed = review(quality, easiness, interval, repetitions, review_datetime)
 
     assert reviewed["easiness"] == expected_easiness
     assert reviewed["interval"] == expected_interval
     assert reviewed["repetitions"] == expected_repetitions
-    assert reviewed["review_date"] == expected_review_date
+    assert reviewed["review_datetime"] == expected_review_date
