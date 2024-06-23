@@ -39,7 +39,7 @@ def review(
         "easiness": easiness,
         "interval": interval,
         "repetitions": repetitions,
-        "review_date": str(review_datetime),
+        "review_datetime": str(review_datetime),
     }
 
 
