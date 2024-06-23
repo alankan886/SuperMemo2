@@ -187,6 +187,10 @@ Check coverage on [Codecov](https://codecov.io/gh/alankan886/SuperMemo2).
 <a name="changelog">
 
 ## Changelog
+3.0.0 (2024-06-22): Major changes/rebuild, Update recommended
+- Rewrote the code to remove the class structure, simplfying the code and usability.
+- Update to provide datetime instead of just date, more specific with when to review.
+
 2.0.0 (2021-03-28): Major changes/rebuild, Update recommended
 - Rebuilt and simplfied the package.
 
